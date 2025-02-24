@@ -1,0 +1,33 @@
+/* Footer.css */
+.footer {
+    background-color: #033452;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    margin-top: auto; /* Ensures footer sticks to the bottom */
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .footer-links a:hover {
+    color: #f8c291;
+  }
