@@ -1,8 +1,9 @@
-###### Mobile App for Direct Market Access for Farmers
+# Mobile App for Direct Market Access for Farmers
 
 
 
-## Domain
+### Domain
+ Application Development, E-commerce for Agriculture, AgriTech Solutions
 
 
 
@@ -11,11 +12,35 @@ Background: Farmers often face challenges in accessing markets, leading to lower
 
 
 
-### software & Hardware Requirements
+
+### Key Features
+Direct Marketplace,
+Connects farmers directly with consumers and retailers, eliminating intermediaries.
+
+Product Listing & Search,
+Allows farmers to list their products with details like price, quantity, and availability.
+Provides a search feature for consumers to find products easily.
+
+Location-Based Services,
+Shows nearby available products to consumers based on their location.
+
+Notifications & Alerts,
+Provides real-time notifications for new orders, messages, and updates.
+
+
+
+
+
+
+### Software & Hardware Requirements
     1 Software
     MERN
     2 Hardware
-    standar desktop/laptop with a minimum 8GB RAM and a multi-core processor for local deployment
+    standar desktop/laptop with a minimum 8GB RAM 
+    and a multi-core processor for local deployment
+
+
+    
 
 ### Abstract
 This project aims to develop a mobile application to address the challenges faced by farmers in accessing 
@@ -28,7 +53,8 @@ of Agriculture and Farmers Welfare and aligns with the themes of Agriculture, Fo
 
 
 ### Team Members
-Rahul Anil Chaudhari  (TY DS - 26 ) 
-Vivek Shashikant Chaudhari (TY DS – 49) 
-Zuber Shaikh Aqeel Maniyar (TY DS  - 51) 
-Hitesh Rameshwar Mahale (TY DS – 60)
+
+###### Rahul Anil Chaudhari (TYDS-06)
+###### Vivek Shashikant Chaudhari (TYDS-49)
+###### Zuber Shaikh Aqeel Maniyar (TYDS-51)
+###### Hitesh Rameshwar Mahale (TYDS-60
