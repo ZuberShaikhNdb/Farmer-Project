@@ -14,17 +14,20 @@ Background: Farmers often face challenges in accessing markets, leading to lower
 
 
 ### Key Features
-Direct Marketplace,
+Direct Marketplace
 Connects farmers directly with consumers and retailers, eliminating intermediaries.
 
-Product Listing & Search,
+
+Product Listing & Search
 Allows farmers to list their products with details like price, quantity, and availability.
 Provides a search feature for consumers to find products easily.
 
-Location-Based Services,
+
+Location-Based Services
 Shows nearby available products to consumers based on their location.
 
-Notifications & Alerts,
+
+Notifications & Alerts
 Provides real-time notifications for new orders, messages, and updates.
 
 
@@ -38,6 +41,19 @@ Provides real-time notifications for new orders, messages, and updates.
     2 Hardware
     standar desktop/laptop with a minimum 8GB RAM 
     and a multi-core processor for local deployment
+
+
+### Working
+ Step 1: Farmers register and list their produce
+ 
+ Step 2: Consumers/retailers browse available products
+ 
+ Step 3: Direct communication and price negotiation
+ 
+ Step 4: Secure payment and order confirmation
+ 
+ Step 5: Delivery/logistics management (if applicable)
+
 
 
     
@@ -54,7 +70,10 @@ of Agriculture and Farmers Welfare and aligns with the themes of Agriculture, Fo
 
 ### Team Members
 
-###### Rahul Anil Chaudhari (TYDS-06)
-###### Vivek Shashikant Chaudhari (TYDS-49)
-###### Zuber Shaikh Aqeel Maniyar (TYDS-51)
-###### Hitesh Rameshwar Mahale (TYDS-60
+Rahul Anil Chaudhari (TYDS-06)
+
+Vivek Shashikant Chaudhari (TYDS-49)
+
+Zuber Shaikh Aqeel Maniyar (TYDS-51)
+
+Hitesh Rameshwar Mahale (TYDS-60
