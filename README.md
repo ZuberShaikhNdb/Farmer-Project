@@ -76,4 +76,9 @@ Vivek Shashikant Chaudhari (TYDS-49)
 
 Zuber Shaikh Aqeel Maniyar (TYDS-51)
 
-Hitesh Rameshwar Mahale (TYDS-60
+Hitesh Rameshwar Mahale (TYDS-60)
+
+## Project Demo
+### Demo 1 : **7-03-2025**
+
+
