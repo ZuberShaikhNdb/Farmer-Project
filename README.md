@@ -81,4 +81,31 @@ Hitesh Rameshwar Mahale (TYDS-60)
 ## Project Demo
 ### Demo 1 : **7-03-2025**
 
+### Objective
+**Empower farmers** by giving them direct access to the market.  
+- **Ensure fair pricing** by reducing middlemen involvement.  
+- **Enhance agricultural trade** through a digital platform.  
+- **Support rural development** with a sustainable e-commerce solution.  
+- **Promote digital transformation** in the agricultural sector.
+
+### Background
+Farmers often face difficulties in accessing markets, leading to dependency on middlemen who reduce their profits. 
+This issue limits their ability to sell produce at fair prices and gain financial stability.
+
+### Applications of the Mobile App
+**Direct Farmer-to-Consumer Sales**  
+   - Farmers sell their produce directly to consumers, ensuring better profits and fresh produce for buyers.  
+
+2. **Bulk Selling to Retailers & Supermarkets**  
+   - Large retailers, supermarkets, and restaurants can buy directly from farmers, cutting supply chain costs.  
+
+3. **Agri-Input Marketplace**  
+   - Farmers can purchase seeds, fertilizers, and tools directly from manufacturers or suppliers at fair prices.  
+
+4. **Government & NGO Support**  
+   - The platform can be used for subsidy distribution, training programs, and farmer welfare schemes.  
+
+5. **Agri-Logistics & Transport Management**  
+   - Farmers can arrange transport for delivering produce, reducing wastage and improving market reach. 
+ 
 
