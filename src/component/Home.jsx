@@ -21,7 +21,6 @@ const Home = ()=>{
 
     return(
         <>
-            <Navbar></Navbar>
             
             <div className="home">
             <h1>Welcome to FarmMate</h1>

@@ -1,111 +1,84 @@
-/* SellProductFormAttractive.css */
-.sell-product-form-attractive {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 1s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .sell-product-form-attractive h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    color: #333;
-    animation: slideIn 0.5s ease-in-out;
-  }
-  
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  .form-group {
-    position: relative;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    padding: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: #333;
-    background-color: transparent;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    border-color: #4caf50;
-    box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
-    outline: none;
-  }
-  
-  .form-group label {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    font-size: 1rem;
-    color: #777;
-    transition: all 0.3s ease;
-    pointer-events: none;
-  }
-  
-  .form-group input:focus + label,
-  .form-group input:not(:placeholder-shown) + label,
-  .form-group select:focus + label,
-  .form-group select:not([value=""]) + label,
-  .form-group textarea:focus + label,
-  .form-group textarea:not(:placeholder-shown) + label {
-    top: -0.5rem;
-    left: 0.8rem;
-    font-size: 0.8rem;
-    color: #4caf50;
-    background-color: #f9f9f9;
-    padding: 0 0.2rem;
-  }
-  
-  .submit-button {
-    width: 100%;
-    padding: 1rem;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .submit-button:hover {
-    background-color: #45a049;
-    transform: translateY(-2px);
-  }
-  
-  .submit-button:active {
-    transform: translateY(0);
-  }
+.sell-container {
+  max-width: 650px;
+  margin: 40px auto;
+  background: #f8fbff;
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+}
+
+.sell-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2d3436;
+}
+
+.sell-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sell-form label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2d3436;
+}
+
+.sell-form input[type="text"],
+.sell-form input[type="number"],
+.sell-form input[type="date"],
+.sell-form input[type="file"],
+.sell-form textarea,
+.sell-form select {
+  margin-bottom: 18px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  background-color: #fff;
+}
+
+.sell-form textarea {
+  resize: none;
+}
+
+.sell-form select {
+  cursor: pointer;
+}
+
+.sell-form button {
+  background-color: #00b894;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+.sell-form button:hover {
+  background-color: #019875;
+}
+
+.preview-image {
+  width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}

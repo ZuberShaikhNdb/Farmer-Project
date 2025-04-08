@@ -1,109 +1,104 @@
-import React, { useState } from 'react';
-import './Sell.css'; // Import the CSS file
+import React, { useState } from "react";
+import "./Sell.css";
 
-const SellProductFormAttractive = () => {
-  const [formData, setFormData] = useState({
-    productName: '',
-    productType: '',
-    quantity: '',
-    price: '',
-    description: '',
+const Sell = () => {
+  const [form, setForm] = useState({
+    name: "",
+    price: "",
+    quantity: "",
+    description: "",
+    location: "",
+    category: "",
+    harvestDate: "",
+    inStock: true
   });
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, checked } = e.target;
+    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Product submitted successfully!');
-    console.log('Form Data:', formData);
-    // You can add logic here to send the form data to an API or backend
+    console.log({ ...form, image });
+    setSuccess(true);
+
+    // Reset form
+    setForm({
+      name: "",
+      price: "",
+      quantity: "",
+      description: "",
+      location: "",
+      category: "",
+      harvestDate: "",
+      inStock: true
+    });
+    setImage(null);
+    setPreview(null);
+
+    setTimeout(() => setSuccess(false), 4000);
   };
 
   return (
-    <div className="sell-product-form-attractive">
-      <h2>Sell Your Product</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <input
-            type="text"
-            id="productName"
-            name="productName"
-            value={formData.productName}
-            onChange={handleChange}
-            required
-            placeholder=" "
-          />
-          <label htmlFor="productName">Product Name</label>
-        </div>
+    <div className="sell-container">
+      <h2>List Your Product</h2>
 
-        <div className="form-group">
-          <select
-            id="productType"
-            name="productType"
-            value={formData.productType}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Product Type</option>
-            <option value="vegetable">Vegetable</option>
-            <option value="fruit">Fruit</option>
-            <option value="grain">Grain</option>
-            <option value="dairy">Dairy</option>
-          </select>
-          <label htmlFor="productType">Product Type</label>
-        </div>
+      {success && <div className="success-message">🎉 Product listed successfully!</div>}
 
-        <div className="form-group">
-          <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-            required
-            placeholder=" "
-          />
-          <label htmlFor="quantity">Quantity (in kg)</label>
-        </div>
+      <form onSubmit={handleSubmit} className="sell-form">
+        <label>Product Name:</label>
+        <input type="text" name="name" placeholder="e.g. Tomatoes" value={form.name} onChange={handleChange} required />
 
-        <div className="form-group">
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            placeholder=" "
-          />
-          <label htmlFor="price">Price (per kg)</label>
-        </div>
+        <label>Price (₹):</label>
+        <input type="number" name="price" placeholder="e.g. 120" value={form.price} onChange={handleChange} required />
 
-        <div className="form-group">
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows="4"
-            required
-            placeholder=" "
-          />
-          <label htmlFor="description">Description</label>
-        </div>
+        <label>Quantity (in Kg or Units):</label>
+        <input type="text" name="quantity" placeholder="e.g. 15 kg" value={form.quantity} onChange={handleChange} required />
 
-        <button type="submit" className="submit-button">
-          Submit
-        </button>
+        <label>Category:</label>
+        <select name="category" value={form.category} onChange={handleChange} required>
+          <option value="">Select Category</option>
+          <option value="Fruits">Fruits</option>
+          <option value="Vegetables">Vegetables</option>
+          <option value="Grains">Grains</option>
+          <option value="Dairy">Dairy</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label>Harvest Date:</label>
+        <input type="date" name="harvestDate" value={form.harvestDate} onChange={handleChange} required />
+
+        <label>Description:</label>
+        <textarea name="description" placeholder="Describe your product..." rows="4" value={form.description} onChange={handleChange} required></textarea>
+
+        <label>Location:</label>
+        <input type="text" name="location" placeholder="e.g. Indore, MP" value={form.location} onChange={handleChange} required />
+
+        <label>
+          <input type="checkbox" name="inStock" checked={form.inStock} onChange={handleChange} />
+          &nbsp; Available in Stock
+        </label>
+
+        <label>Upload Product Image:</label>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        {preview && <img src={preview} alt="Preview" className="preview-image" />}
+
+        <button type="submit">List Product</button>
       </form>
     </div>
   );
 };
 
-export default SellProductFormAttractive;
+export default Sell;

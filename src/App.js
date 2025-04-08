@@ -1,28 +1,31 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Layout from './component/Layout';
 import SingUp from './component/Login-SingUp';
 import Home from './component/Home';
 import SellProductForm from './component/Sell';
 import BuyProducts from './component/Buy';
-
-
+import Cart from './component/NavbarTab/Cart';
+import About from './component/NavbarTab/About';
+import Services from './component/NavbarTab/Services';
+import Contact from './component/NavbarTab/Contact';
 
 function App() {
   return (
-  <>
-    
-    <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<SingUp/>}></Route>
-          <Route path='/home' element={<Home/>}></Route>
-          <Route path='/sell' element={<SellProductForm/>}></Route>
-          <Route path='/buy' element={<BuyProducts/>}></Route>
-        </Routes>
-    </BrowserRouter>
-
-  </>
-   
-   
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<SingUp />} />
+          <Route path="home" element={<Home />} />
+          <Route path="sell" element={<SellProductForm />} />
+          <Route path="buy" element={<BuyProducts />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="about" element={<About />} />
+          <Route path="services" element={<Services />} />
+          <Route path="contact" element={<Contact />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
