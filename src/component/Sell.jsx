@@ -10,15 +10,34 @@ const Sell = () => {
     location: "",
     category: "",
     harvestDate: "",
-    inStock: true
+    inStock: true,
+    contact: {
+      email: "",
+      phone: ""
+    }
   });
+
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+
+    if (name === "email" || name === "phone") {
+      setForm({
+        ...form,
+        contact: {
+          ...form.contact,
+          [name]: value
+        }
+      });
+    } else {
+      setForm({
+        ...form,
+        [name]: type === "checkbox" ? checked : value
+      });
+    }
   };
 
   const handleImageChange = (e) => {
@@ -29,26 +48,58 @@ const Sell = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ ...form, image });
-    setSuccess(true);
 
-    // Reset form
-    setForm({
-      name: "",
-      price: "",
-      quantity: "",
-      description: "",
-      location: "",
-      category: "",
-      harvestDate: "",
-      inStock: true
+    const formData = new FormData();
+
+    // Manually flatten the contact object
+    Object.entries(form).forEach(([key, value]) => {
+      if (key === "contact") {
+        formData.append("contact[email]", value.email);
+        formData.append("contact[phone]", value.phone);
+      } else if (key === "quantity") {
+        formData.append("quantity", parseFloat(value)); // ensure quantity is a number
+      } else {
+        formData.append(key, value);
+      }
     });
-    setImage(null);
-    setPreview(null);
 
-    setTimeout(() => setSuccess(false), 4000);
+    if (image) {
+      formData.append("image", image);
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/products/add", {
+        method: "POST",
+        body: formData
+      });
+
+      if (res.ok) {
+        setSuccess(true);
+        setForm({
+          name: "",
+          price: "",
+          quantity: "",
+          description: "",
+          location: "",
+          category: "",
+          harvestDate: "",
+          inStock: true,
+          contact: {
+            email: "",
+            phone: ""
+          }
+        });
+        setImage(null);
+        setPreview(null);
+        setTimeout(() => setSuccess(false), 4000);
+      } else {
+        alert("Failed to submit. Try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting product:", error);
+    }
   };
 
   return (
@@ -59,13 +110,35 @@ const Sell = () => {
 
       <form onSubmit={handleSubmit} className="sell-form">
         <label>Product Name:</label>
-        <input type="text" name="name" placeholder="e.g. Tomatoes" value={form.name} onChange={handleChange} required />
+        <input
+          type="text"
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          required
+          placeholder="e.g. Tomatoes"
+        />
 
         <label>Price (₹):</label>
-        <input type="number" name="price" placeholder="e.g. 120" value={form.price} onChange={handleChange} required />
+        <input
+          type="number"
+          name="price"
+          value={form.price}
+          onChange={handleChange}
+          required
+          placeholder="e.g. 120"
+        />
 
         <label>Quantity (in Kg or Units):</label>
-        <input type="text" name="quantity" placeholder="e.g. 15 kg" value={form.quantity} onChange={handleChange} required />
+        <input
+          type="number"
+          name="quantity"
+          value={form.quantity}
+          onChange={handleChange}
+          required
+          placeholder="e.g. 15"
+        />
+        <small>Unit is Kg or count, mention in description.</small>
 
         <label>Category:</label>
         <select name="category" value={form.category} onChange={handleChange} required>
@@ -78,16 +151,61 @@ const Sell = () => {
         </select>
 
         <label>Harvest Date:</label>
-        <input type="date" name="harvestDate" value={form.harvestDate} onChange={handleChange} required />
+        <input
+          type="date"
+          name="harvestDate"
+          value={form.harvestDate}
+          onChange={handleChange}
+          required
+        />
 
         <label>Description:</label>
-        <textarea name="description" placeholder="Describe your product..." rows="4" value={form.description} onChange={handleChange} required></textarea>
+        <textarea
+          name="description"
+          value={form.description}
+          onChange={handleChange}
+          rows="4"
+          required
+          placeholder="Describe your product..."
+        />
 
         <label>Location:</label>
-        <input type="text" name="location" placeholder="e.g. Indore, MP" value={form.location} onChange={handleChange} required />
+        <input
+          type="text"
+          name="location"
+          value={form.location}
+          onChange={handleChange}
+          required
+          placeholder="e.g. Indore, MP"
+        />
+
+        <label>Contact Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={form.contact.email}
+          onChange={handleChange}
+          required
+          placeholder="e.g. farmer@example.com"
+        />
+
+        <label>Contact Phone:</label>
+        <input
+          type="tel"
+          name="phone"
+          value={form.contact.phone}
+          onChange={handleChange}
+          required
+          placeholder="e.g. 9876543210"
+        />
 
         <label>
-          <input type="checkbox" name="inStock" checked={form.inStock} onChange={handleChange} />
+          <input
+            type="checkbox"
+            name="inStock"
+            checked={form.inStock}
+            onChange={handleChange}
+          />
           &nbsp; Available in Stock
         </label>
 

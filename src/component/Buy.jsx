@@ -1,55 +1,63 @@
-import React, { useState } from 'react';
-import './Buy.css'; // Import the CSS file
-import Rating from './Rating'; // Import the Rating component
+import React, { useState, useEffect } from 'react';
+import './Buy.css';
+import Rating from './Rating';
+
+const statesOfIndia = [
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+  "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+  "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+  "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+];
 
 const BuyProducts = () => {
-  // Sample product data
-  const products = [
-    {
-      id: 1,
-      name: 'Fresh Apples',
-      type: 'Fruit',
-      price: 50,
-      image: '/images/apples-at-farmers-market-royalty-free-image-1627321463.avif',
-    },
-    {
-      id: 2,
-      name: 'Organic Tomatoes',
-      type: 'Vegetable',
-      price: 60,
-      image: '/images/engin-akyurt-HrCatSbULFY-unsplash-scaled.webp',
-    },
-    {
-      id: 3,
-      name: 'Whole Wheat Bread',
-      type: 'Grain',
-      price: 50,
-      image: '/images/IMG_2362.jpg',
-    },
-    {
-      id: 4,
-      name: 'Fresh Milk',
-      type: 'Dairy',
-      price: 70,
-      image: '/images/product-jpeg.jpeg',
-    },
-  ];
-
+  const [products, setProducts] = useState([]);
   const [ratings, setRatings] = useState({});
+  const [expandedProductId, setExpandedProductId] = useState(null);
+  const [selectedState, setSelectedState] = useState("");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/products");
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleContact = (contact) => {
+    alert(`Contact the seller at: ${contact}`);
+  };
 
   const handleBuyNow = (productId) => {
     alert(`You have purchased product with ID: ${productId}`);
-    // You can add logic here to handle the purchase (e.g., redirect to a payment page)
-  };
-
-  const handleContact = (productId) => {
-    alert(`Contact seller for product with ID: ${productId}`);
-    // You can add logic here to handle the contact action (e.g., open a contact form)
   };
 
   const handleAddToCart = (productId) => {
-    alert(`Added product with ID: ${productId} to cart`);
-    // You can add logic here to handle adding the product to the cart
+    const product = products.find((p) => p._id === productId);
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const existingIndex = cart.findIndex((item) => item.id === productId);
+
+    if (existingIndex > -1) {
+      cart[existingIndex].quantity += 1;
+    } else {
+      cart.push({
+        id: productId,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        image: `http://localhost:5000/uploads/${product.image}`,
+      });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`Added ${product.name} to cart`);
   };
 
   const handleRating = (productId, rating) => {
@@ -59,42 +67,77 @@ const BuyProducts = () => {
     }));
   };
 
+  const filteredProducts = selectedState
+    ? products.filter((p) => p.location.toLowerCase().includes(selectedState.toLowerCase()))
+    : products;
+
+  const toggleExpand = (productId) => {
+    setExpandedProductId((prevId) => (prevId === productId ? null : productId));
+  };
+
   return (
     <div className="buy-products">
       <h2>Buy Fresh Products</h2>
+
+      <div className="state-filter">
+        <label htmlFor="state">Filter by State: </label>
+        <select id="state" value={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
+          <option value="">All States</option>
+          {statesOfIndia.map((state) => (
+            <option key={state} value={state}>{state}</option>
+          ))}
+        </select>
+      </div>
+
       <div className="product-list">
-        {products.map((product) => (
-          <div key={product.id} className="product-card">
-            <img src={product.image} alt={product.name} className="product-image" />
-            <h3 className="product-name">{product.name}</h3>
-            <p className="product-type">{product.type}</p>
-            <p className="product-price">{product.price.toFixed(2)} per kg</p>
-            <Rating
-              rating={ratings[product.id] || 0}
-              setRating={(rating) => handleRating(product.id, rating)}
-            />
-            <div className="button-group">
-              <button
-                className="contact-button"
-                onClick={() => handleContact(product.id)}
-              >
-                Contact
-              </button>
-              <button
-                className="cart-button"
-                onClick={() => handleAddToCart(product.id)}
-              >
-                Add to Cart
-              </button>
-              <button
-                className="buy-now-button"
-                onClick={() => handleBuyNow(product.id)}
-              >
-                Buy Now
-              </button>
+        {filteredProducts.map((product) => {
+          const isExpanded = expandedProductId === product._id;
+          return (
+            <div
+              key={product._id}
+              className={`product-card ${isExpanded ? "expanded" : ""}`}
+              onClick={() => toggleExpand(product._id)}
+            >
+              <img
+                src={`http://localhost:5000/uploads/${product.image}`}
+                alt={product.name}
+                className="product-image"
+              />
+              <h3 className="product-name">{product.name}</h3>
+              <p className="product-price">₹{product.price} per unit</p>
+              <p className="product-location">Location: {product.location}</p>
+              <p className="product-stock">
+                {product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
+              </p>
+
+              {isExpanded && (
+                <>
+                  <p className="product-type">Category: {product.category}</p>
+                  <p className="product-quantity">Quantity: {product.quantity}</p>
+                  <p className="product-description">{product.description}</p>
+                  <p className="product-harvest">Harvested on: {product.harvestDate}</p>
+
+                  <Rating
+                    rating={ratings[product._id] || 0}
+                    setRating={(rating) => handleRating(product._id, rating)}
+                  />
+
+                  <div className="button-group">
+                    <button onClick={(e) => { e.stopPropagation(); handleContact(product.contact); }} className="contact-button">
+                      Contact
+                    </button>
+                    <button onClick={(e) => { e.stopPropagation(); handleAddToCart(product._id); }} className="cart-button">
+                      Add to Cart
+                    </button>
+                    <button onClick={(e) => { e.stopPropagation(); handleBuyNow(product._id); }} className="buy-now-button">
+                      Buy Now
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
