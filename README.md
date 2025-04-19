@@ -30,18 +30,29 @@ Shows nearby available products to consumers based on their location.
 Notifications & Alerts
 Provides real-time notifications for new orders, messages, and updates.
 
+## ⚙️ Working (How It Works)
+1. 👨‍🌾 **Farmer Registration** – Farmers sign up and list their produce.
+2. 🛍️ **Buyer Browsing** – Consumers/retailers browse listings.
+3. 💬 **Direct Communication** – In-app chat for price negotiation.
+4. 💳 **Order & Payment** – Secure payment and order confirmation.
+5. 🚚 **Logistics & Delivery** – Optional transport system (future scope).
 
 
 
 
 
-### Software & Hardware Requirements
-    1 Software
-    MERN
-    2 Hardware
-    standar desktop/laptop with a minimum 8GB RAM 
-    and a multi-core processor for local deployment
 
+### 🧑‍💻 Software Stack
+- **Frontend:** React Native (or Flutter)
+- **Backend:** Node.js with Express.js
+- **Database:** MongoDB
+- **APIs:** Google Maps API, Notification System, Payment Gateway
+
+### 🖥️ Hardware Requirements
+- Standard desktop/laptop with:
+  - Minimum **8GB RAM**
+  - **Multi-core processor** for local development and deployment
+  - 
 
 ### Working
  Step 1: Farmers register and list their produce
@@ -58,25 +69,7 @@ Provides real-time notifications for new orders, messages, and updates.
 
     
 
-### Abstract
-This project aims to develop a mobile application to address the challenges faced by farmers in accessing 
-markets and obtaining fair prices for their produce. The proposed solution is a user-friendly mobile platform 
-that connects farmers directly with consumers and retailers, cutting out intermediaries. The app will enable 
-farmers to list their produce, negotiate prices, and manage transactions. This direct market access approach is 
-expected to increase farmers' income potential and improve their livelihoods. The platform will be accessible 
-via mobile devices and potentially through a web-based interface. This initiative is supported by the Ministry 
-of Agriculture and Farmers Welfare and aligns with the themes of Agriculture, FoodTech & Rural Development. 
 
-
-### Team Members
-
-Rahul Anil Chaudhari (TYDS-06)
-
-Vivek Shashikant Chaudhari (TYDS-49)
-
-Zuber Shaikh Aqeel Maniyar (TYDS-51)
-
-Hitesh Rameshwar Mahale (TYDS-60)
 
 ## Project Demo
 ### Demo 1 : **7-03-2025**
@@ -106,6 +99,37 @@ This issue limits their ability to sell produce at fair prices and gain financia
    - The platform can be used for subsidy distribution, training programs, and farmer welfare schemes.  
 
 5. **Agri-Logistics & Transport Management**  
-   - Farmers can arrange transport for delivering produce, reducing wastage and improving market reach. 
+   - Farmers can arrange transport for delivering produce, reducing wastage and improving market reach.
+  
+
+
+## 🔮 Future Scope
+- AI-based pricing and demand prediction
+- Voice assistant in regional languages
+- Integration with Government APIs
+- Web-based version for retailers
+- Real-time weather and crop advisory
+  
+
+
+### Abstract
+This project aims to develop a mobile application to address the challenges faced by farmers in accessing 
+markets and obtaining fair prices for their produce. The proposed solution is a user-friendly mobile platform 
+that connects farmers directly with consumers and retailers, cutting out intermediaries. The app will enable 
+farmers to list their produce, negotiate prices, and manage transactions. This direct market access approach is 
+expected to increase farmers' income potential and improve their livelihoods. The platform will be accessible 
+via mobile devices and potentially through a web-based interface. This initiative is supported by the Ministry 
+of Agriculture and Farmers Welfare and aligns with the themes of Agriculture, FoodTech & Rural Development. 
+
+
+### Team Members
+
+Rahul Anil Chaudhari (TYDS-06)
+
+Vivek Shashikant Chaudhari (TYDS-49)
+
+Zuber Shaikh Aqeel Maniyar (TYDS-51)
+
+Hitesh Rameshwar Mahale (TYDS-60)
  
 
