@@ -13,8 +13,8 @@ const Sell = () => {
     inStock: true,
     contact: {
       email: "",
-      phone: ""
-    }
+      phone: "",
+    },
   });
 
   const [image, setImage] = useState(null);
@@ -29,13 +29,13 @@ const Sell = () => {
         ...form,
         contact: {
           ...form.contact,
-          [name]: value
-        }
+          [name]: value,
+        },
       });
     } else {
       setForm({
         ...form,
-        [name]: type === "checkbox" ? checked : value
+        [name]: type === "checkbox" ? checked : value,
       });
     }
   };
@@ -53,17 +53,17 @@ const Sell = () => {
 
     const formData = new FormData();
 
-    // Manually flatten the contact object
-    Object.entries(form).forEach(([key, value]) => {
-      if (key === "contact") {
-        formData.append("contact[email]", value.email);
-        formData.append("contact[phone]", value.phone);
-      } else if (key === "quantity") {
-        formData.append("quantity", parseFloat(value)); // ensure quantity is a number
-      } else {
-        formData.append(key, value);
-      }
-    });
+    // Append all form data, including contact fields, directly
+    formData.append("name", form.name);
+    formData.append("price", form.price);
+    formData.append("quantity", form.quantity);
+    formData.append("description", form.description);
+    formData.append("location", form.location);
+    formData.append("category", form.category);
+    formData.append("harvestDate", form.harvestDate);
+    formData.append("inStock", form.inStock);
+    formData.append("contact[email]", form.contact.email);
+    formData.append("contact[phone]", form.contact.phone);
 
     if (image) {
       formData.append("image", image);
@@ -72,7 +72,7 @@ const Sell = () => {
     try {
       const res = await fetch("http://localhost:5000/api/products/add", {
         method: "POST",
-        body: formData
+        body: formData,
       });
 
       if (res.ok) {
@@ -88,8 +88,8 @@ const Sell = () => {
           inStock: true,
           contact: {
             email: "",
-            phone: ""
-          }
+            phone: "",
+          },
         });
         setImage(null);
         setPreview(null);

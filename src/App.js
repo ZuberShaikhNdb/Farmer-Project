@@ -9,6 +9,7 @@ import Cart from './component/NavbarTab/Cart';
 import About from './component/NavbarTab/About';
 import Services from './component/NavbarTab/Services';
 import Contact from './component/NavbarTab/Contact';
+import ContactSeller from './component/ContactSeller';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="services" element={<Services />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="contactseller" element={<ContactSeller />} />
         </Route>
       </Routes>
     </Router>

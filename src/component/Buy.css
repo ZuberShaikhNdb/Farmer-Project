@@ -203,3 +203,115 @@
   font-size: 16px;
   margin-left: 10px;
 }
+.state-filter {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.state-filter input {
+  padding: 8px;
+  width: 250px;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 250px;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestions-dropdown li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestions-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Buy.css */
+
+/* ... other styles ... */
+
+.contact-modal {
+  position: fixed; /* To overlay on top of other content */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the modal */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it's on top of other elements */
+  min-width: 300px; /* Adjust as needed */
+  min-height: 200px; /* Adjust as needed */
+}
+
+/* You might also want to style a backdrop for the modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 999; /* Below the modal but above other content */
+}
+
+/* QR Code Modal */
+.qr-code-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.qr-code-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+}
+
+.qr-code-box h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.upi-text {
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
+}
+
+.close-qr-button {
+  padding: 10px;
+  border: none;
+  background-color: #f44336;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.close-qr-button:hover {
+  background-color: #d32f2f;
+}
