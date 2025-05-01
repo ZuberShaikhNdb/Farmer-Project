@@ -30,12 +30,12 @@ mongoose.connect(process.env.MONGO_URI, {
 const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
-const messageRoutes = require("./routes/message"); // Import message routes
+//const messageRoutes = require("./routes/message"); // Import message routes
 
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api", messageRoutes); // Mount message routes under /api
+//app.use("/api", messageRoutes); // Mount message routes under /api
 
 // Root test route
 app.get("/", (req, res) => {

@@ -52,8 +52,6 @@ const Sell = () => {
     e.preventDefault();
 
     const formData = new FormData();
-
-    // Append all form data, including contact fields, directly
     formData.append("name", form.name);
     formData.append("price", form.price);
     formData.append("quantity", form.quantity);
@@ -62,8 +60,8 @@ const Sell = () => {
     formData.append("category", form.category);
     formData.append("harvestDate", form.harvestDate);
     formData.append("inStock", form.inStock);
-    formData.append("contact[email]", form.contact.email);
-    formData.append("contact[phone]", form.contact.phone);
+    formData.append("contactEmail", form.contact.email); // Separate contact fields
+    formData.append("contactPhone", form.contact.phone); // Separate contact fields
 
     if (image) {
       formData.append("image", image);

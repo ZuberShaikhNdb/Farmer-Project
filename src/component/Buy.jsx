@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './Buy.css';
 import Rating from './Rating';
-import ContactSeller from './ContactSeller';
-import SendMessage from './SendMessage';
-import { io } from 'socket.io-client';
 import RealTimeChat from './RealTimeChat';
+import { io } from 'socket.io-client';
 import { QRCodeCanvas } from 'qrcode.react'; // Use QRCodeCanvas here
 
 const statesOfIndia = [
@@ -20,6 +18,7 @@ const BuyProducts = () => {
     const [ratings, setRatings] = useState({});
     const [expandedProductId, setExpandedProductId] = useState(null);
     const [selectedState, setSelectedState] = useState("");
+    const [searchQuery, setSearchQuery] = useState(""); // <-- New search state
     const [chatVisible, setChatVisible] = useState(false);
     const [selectedProductForChat, setSelectedProductForChat] = useState(null);
     const [upiUrl, setUpiUrl] = useState(""); // ➡️ For QR Code
@@ -28,20 +27,9 @@ const BuyProducts = () => {
 
     useEffect(() => {
         socket.current = io('http://localhost:5000');
-
-        socket.current.on('connect', () => {
-            console.log('Frontend connected to Socket.IO server:', socket.current.id);
-        });
-
-        socket.current.on('disconnect', () => {
-            console.log('Frontend disconnected from Socket.IO server');
-        });
-
-        return () => {
-            if (socket.current) {
-                socket.current.disconnect();
-            }
-        };
+        socket.current.on('connect', () => console.log('Socket connected', socket.current.id));
+        socket.current.on('disconnect', () => console.log('Socket disconnected'));
+        return () => socket.current.disconnect();
     }, []);
 
     useEffect(() => {
@@ -54,178 +42,116 @@ const BuyProducts = () => {
                 console.error("Failed to fetch products", err);
             }
         };
-
         fetchProducts();
     }, []);
 
     const handleContact = useCallback((contact, productId) => {
         setSelectedProductForChat(productId);
         setChatVisible(true);
-        if (socket.current) {
-            socket.current.emit('joinProductRoom', productId);
-        }
+        socket.current.emit('joinProductRoom', productId);
     }, []);
 
     const handleCloseChat = () => {
+        socket.current.emit('leaveProductRoom', selectedProductForChat);
         setChatVisible(false);
         setSelectedProductForChat(null);
-        if (socket.current && selectedProductForChat) {
-            socket.current.emit('leaveProductRoom', selectedProductForChat);
-        }
     };
 
     const handleClickOutsideChat = (event) => {
         if (chatRef.current && !chatRef.current.contains(event.target)) {
-            setChatVisible(false);
-            setSelectedProductForChat(null);
-            if (socket.current && selectedProductForChat) {
-                socket.current.emit('leaveProductRoom', selectedProductForChat);
-            }
+            handleCloseChat();
         }
     };
 
     useEffect(() => {
-        if (chatVisible) {
-            document.addEventListener("mousedown", handleClickOutsideChat);
-        } else {
-            document.removeEventListener("mousedown", handleClickOutsideChat);
-        }
+        if (chatVisible) document.addEventListener("mousedown", handleClickOutsideChat);
+        else document.removeEventListener("mousedown", handleClickOutsideChat);
+        return () => document.removeEventListener("mousedown", handleClickOutsideChat);
+    }, [chatVisible]);
 
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutsideChat);
-        };
-    }, [chatVisible, selectedProductForChat]);
-
-    // 🛒 Add to Cart
     const handleAddToCart = (productId) => {
-        const product = products.find((p) => p._id === productId);
+        const product = products.find(p => p._id === productId);
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        const existingIndex = cart.findIndex((item) => item.id === productId);
-
-        if (existingIndex > -1) {
-            cart[existingIndex].quantity += 1;
-        } else {
-            cart.push({
-                id: productId,
-                name: product.name,
-                price: product.price,
-                quantity: 1,
-                image: `http://localhost:5000/uploads/${product.image}`,
-            });
-        }
-
+        const idx = cart.findIndex(item => item.id === productId);
+        if (idx > -1) cart[idx].quantity += 1;
+        else cart.push({ id: productId, name: product.name, price: product.price, quantity: 1, image: `http://localhost:5000/uploads/${product.image}` });
         localStorage.setItem('cart', JSON.stringify(cart));
         alert(`Added ${product.name} to cart`);
     };
 
-    // ⭐ Handle Rating
     const handleRating = (productId, rating) => {
-        setRatings((prevRatings) => ({
-            ...prevRatings,
-            [productId]: rating,
-        }));
+        setRatings(prev => ({ ...prev, [productId]: rating }));
     };
 
-    // 🌟 NEW 🌟 Handle Buy Now with UPI and QR
     const handleBuyNow = (product) => {
         const sellerPhone = product.contact.phone;
         const sellerName = product.contact.email.split('@')[0];
         const amount = product.price;
-
-        const upiId = `${sellerPhone}@upi`;
-        const upiPaymentUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(sellerName)}&am=${amount}&cu=INR`;
-
-        setUpiUrl(upiPaymentUrl); // ➡️ Set URL for QR display
+        const upiPaymentUrl = `upi://pay?pa=${sellerPhone}@upi&pn=${encodeURIComponent(sellerName)}&am=${amount}&cu=INR`;
+        setUpiUrl(upiPaymentUrl);
     };
 
-    const filteredProducts = selectedState
-        ? products.filter((p) => p.location.trim().toLowerCase() === selectedState.trim().toLowerCase())
+    // Filter by state and search query
+    const stateFiltered = selectedState
+        ? products.filter(p => p.location.toLowerCase() === selectedState.toLowerCase())
         : products;
 
-    const toggleExpand = (productId) => {
-        setExpandedProductId((prevId) => (prevId === productId ? null : productId));
-    };
-
-    const handleCloseQRCode = () => {
-        setUpiUrl("");
-    };
+    const filteredProducts = stateFiltered.filter(p => {
+        const q = searchQuery.trim().toLowerCase();
+        if (!q) return true;
+        return (
+            p.name.toLowerCase().includes(q) ||
+            p.location.toLowerCase().includes(q) ||
+            p.category.toLowerCase().includes(q) ||
+            p.price.toString().includes(q)
+        );
+    });
 
     return (
         <div className="buy-products">
             <h2>Buy Fresh Products</h2>
 
-            <div className="state-filter">
-                <label htmlFor="state">Filter by State: </label>
-                <select id="state" value={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
-                    <option value="">All States</option>
-                    {statesOfIndia.map((state) => (
-                        <option key={state} value={state}>{state}</option>
-                    ))}
-                </select>
+            <div className="controls">
+                <input
+                    type="text"
+                    className="search-bar"
+                    placeholder="Search by name, location, category or price..."
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                />
+                <div className="state-filter">
+                    <label htmlFor="state">Filter by State:</label>
+                    <select id="state" value={selectedState} onChange={e => setSelectedState(e.target.value)}>
+                        <option value="">All States</option>
+                        {statesOfIndia.map(state => <option key={state} value={state}>{state}</option>)}
+                    </select>
+                </div>
             </div>
 
             <div className="product-list">
-                {filteredProducts.map((product) => {
+                {filteredProducts.map(product => {
                     const isExpanded = expandedProductId === product._id;
                     return (
-                        <div
-                            key={product._id}
-                            className={`product-card ${isExpanded ? "expanded" : ""}`}
-                            onClick={() => toggleExpand(product._id)}
-                        >
-                            <img
-                                src={`http://localhost:5000/uploads/${product.image}`}
-                                alt={product.name}
-                                className="product-image"
-                            />
+                        <div key={product._id} className={`product-card ${isExpanded ? 'expanded' : ''}`} onClick={() => setExpandedProductId(id => id === product._id ? null : product._id)}>
+                            <img src={`http://localhost:5000/uploads/${product.image}`} alt={product.name} className="product-image" />
                             <h3 className="product-name">{product.name}</h3>
                             <p className="product-price">₹{product.price} per unit</p>
                             <p className="product-location">Location: {product.location}</p>
-                            <p className="product-stock">
-                                {product.inStock ? "✅ In Stock" : "❌ Out of Stock"}
-                            </p>
+                            <p className="product-stock">{product.inStock ? '✅ In Stock' : '❌ Out of Stock'}</p>
 
                             {isExpanded && (
-                                <>
-                                    <p className="product-type">Category: {product.category}</p>
-                                    <p className="product-quantity">Quantity: {product.quantity}</p>
-                                    <p className="product-description">{product.description}</p>
-                                    <p className="product-harvest">Harvested on: {product.harvestDate}</p>
+                                <>  
+                                    <p>Category: {product.category}</p>
+                                    <p>Quantity: {product.quantity}</p>
+                                    <p>{product.description}</p>
+                                    <p>Harvested on: {product.harvestDate}</p>
 
-                                    <Rating
-                                        rating={ratings[product._id] || 0}
-                                        setRating={(rating) => handleRating(product._id, rating)}
-                                    />
+                                    <Rating rating={ratings[product._id] || 0} setRating={r => handleRating(product._id, r)} />
 
                                     <div className="button-group">
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleContact(product.contact, product._id);
-                                            }}
-                                            className="contact-button"
-                                        >
-                                            Contact
-                                        </button>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleAddToCart(product._id);
-                                            }}
-                                            className="cart-button"
-                                        >
-                                            Add to Cart
-                                        </button>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleBuyNow(product); // 🔥 Pass whole product
-                                            }}
-                                            className="buy-now-button"
-                                        >
-                                            Buy Now
-                                        </button>
+                                        <button onClick={e => { e.stopPropagation(); handleContact(product.contact, product._id); }} className="contact-button">Contact</button>
+                                        <button onClick={e => { e.stopPropagation(); handleAddToCart(product._id); }} className="cart-button">Add to Cart</button>
+                                        <button onClick={e => { e.stopPropagation(); handleBuyNow(product); }} className="buy-now-button">Buy Now</button>
                                     </div>
                                 </>
                             )}
@@ -234,21 +160,16 @@ const BuyProducts = () => {
                 })}
             </div>
 
-            {/* 🔥 QR Code Modal */}
-            {upiUrl && (
-                <div className="qr-code-modal" onClick={handleCloseQRCode}>
-                    <div className="qr-code-box" onClick={(e) => e.stopPropagation()}>
-                        <h3>Scan to Pay</h3>
-                        <QRCodeCanvas value={upiUrl} size={250} />
-                        <p className="upi-text">Or open UPI app and scan</p>
-                        <button onClick={handleCloseQRCode} className="close-qr-button">Close</button>
-                    </div>
-                </div>
-            )}
+            {upiUrl && <div className="qr-code-modal" onClick={() => setUpiUrl('')}><div className="qr-code-box"><h3>Scan to Pay</h3><QRCodeCanvas value={upiUrl} size={250} /><p>Or open UPI app and scan</p><button onClick={() => setUpiUrl('')}>Close</button></div></div>}
 
             {chatVisible && selectedProductForChat && (
                 <div ref={chatRef} className="contact-modal">
-                    <RealTimeChat socket={socket.current} productId={selectedProductForChat} onClose={handleCloseChat} />
+                    <RealTimeChat
+                        socket={socket.current}
+                        productId={selectedProductForChat}
+                        sellerInfo={products.find(p => p._id === selectedProductForChat)?.contact}
+                        onClose={handleCloseChat}
+                    />
                 </div>
             )}
         </div>

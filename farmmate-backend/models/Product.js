@@ -1,3 +1,4 @@
+// models/Product.js
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
@@ -23,11 +24,11 @@ const productSchema = new mongoose.Schema({
     default: true,
   },
   contact: {
-    phone: {
+    email: {
       type: String,
       required: true,
     },
-    email: {
+    phone: {
       type: String,
       required: true,
     },

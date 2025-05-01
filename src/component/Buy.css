@@ -315,3 +315,42 @@
 .close-qr-button:hover {
   background-color: #d32f2f;
 }
+/* Simple Search Bar */
+.search-bar {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-bar:focus {
+  border-color: #333;
+}
+/* Wrap your search + filter in a .controls container */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;        /* space between search bar and dropdown */
+  margin-bottom: 20px;
+}
+
+/* Make sure .search-bar and .state-filter are flex items */
+.search-bar {
+  flex: 1;          /* take up remaining space */
+  max-width: 300px; /* optional */
+}
+
+/* Optional tweak to remove extra margins on the select */
+.state-filter {
+  margin: 0;        /* override any bottom margins */
+  display: flex;
+  align-items: center;
+}
+
+.state-filter label {
+  margin-right: 6px; /* space between label and select */
+}
