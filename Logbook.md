@@ -56,6 +56,22 @@ Provided valuable insights on **technology feasibility**, **scalability**, and *
 
 ---
 
+## 📊 **Project Implementation Diagram**
+
+The following diagram shows the logical flow of our application’s main features from login to data management and view operations:
+
+![Project Implementation Diagram]([FarmMate_Implementation.jpg](https://github.com/ZuberShaikhNdb/Farmer-Project/blob/main/FarmMate_Implementation%20.jpg)
+
+The flowchart below illustrates the end-to-end user journey within the application for both farmers and customers. It highlights key steps such as:
+
+**Farmer side** : Registration, login, vegetable upload, order handling, payment, and delivery.
+
+**Customer side**: Login, location and product selection, quantity confirmation, payment, and feedback.
+
+
+
+---
+
 ## 📅 **Weekly Progress**
 
 ### ✅ **Week 1: Idea Finalization & Research**
