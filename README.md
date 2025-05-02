@@ -1,4 +1,4 @@
-# 📘 Logbook: Mobile App for Direct Market Access for Farmers
+
 
 ## 🧠 Project Title:-
 # Mobile App for Direct Market Access for Farmers*
