@@ -13,7 +13,18 @@
 
 
 ## 📝 Abstract
-Farmers often face challenges in accessing markets and rely on intermediaries who significantly reduce their profits. This project aims to create a mobile application that connects *farmers directly with consumers and retailers, ensuring **fair pricing* and minimizing middleman involvement. Features include *produce listing, **price negotiation, **secure payments, and **direct communication—empowering the farming community and promoting **digital rural development*.
+Farmers often struggle to access markets directly and must depend on intermediaries, which significantly reduces their profits. This project aims to develop a mobile application that connects farmers directly with consumers and retailers, ensuring fair pricing and minimizing the role of middlemen.
+
+🔑 Key Features
+📋 Produce Listing
+
+💬 Price Negotiation
+
+💳 Secure Payments
+
+📞 Direct Communication
+
+This platform empowers the farming community, enhances their income potential, and promotes digital transformation in rural areas.
 
 ## 👨‍💻 Team Members
 
