@@ -1,46 +1,105 @@
 import { useNavigate } from "react-router-dom";
-import Navbar from './Navbar';
+import { motion } from "framer-motion";
 import Footer from './Footer';
-import "./Home.css"
+import "./Home.css";
 
-const Home = ()=>{
+const Home = () => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const handleSell = () => {
+    navigate("/sell");
+  };
 
-    const handleSell = () => {
-        navigate("/sell");// Redirect to Home Page
-      };
+  const handleBuy = () => {
+    navigate("/buy");
+  };
 
-    const handleBuy = () => {
-        navigate("/buy");// Redirect to Home Page
-      };
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
 
-      const handleView = () => {
-        navigate("/");// Redirect to Home Page
-      };
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
 
-    return(
-        <>
-            
-            <div className="home">
-            <h1>Welcome to FarmMate</h1>
-            <p>Choose an option below:</p>
-            <div className="button-container">
-            <button onClick={handleSell} className="home-button selling">Sell</button>
-            <button onClick={handleBuy} className="home-button buy">Buy</button>
-            <button className="home-button view">View</button>
-            </div>
-
-          {/*  <div className="image-right">
-              <img src={"\images\farmer1.jpg"} alt="1" className="home-image" />
-              <img src={"/images/5e7c07a78fb76a9066bbfa410458b849.jpg"} alt="2" className="home-image" />*
-            </div>*/}
-      
+  return (
+    <>
+      <div className="home">
+        <div className="home-left">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
+            <motion.span variants={itemVariants} className="badge">
+              Fresh from the farm 🌱
+            </motion.span>
+            <motion.h1 variants={itemVariants}>
+              Grow Your Business with <span className="highlight">FarmConnect</span>
+            </motion.h1>
+            <motion.p variants={itemVariants}>
+              The most trusted marketplace connecting farmers directly with buyers. 
+              Experience seamless transactions, fair prices, and fresh produce all in one place.
+            </motion.p>
+            <motion.div variants={itemVariants} className="button-group">
+              <button 
+                className="home-button sell" 
+                onClick={handleSell}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Sell Products
+              </button>
+              <button 
+                className="home-button buy" 
+                onClick={handleBuy}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Buy Fresh Produce
+              </button>
+            </motion.div>
+          </motion.div>
         </div>
 
-            <Footer></Footer>
-        </>
-    )
-}
+        <div className="home-right">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <img
+              src="/images/farmer image.jpg"
+              alt="Happy farmer with fresh produce"
+              className="hero-image"
+            />
+            <div className="floating-icons">
+              <div className="icon tomato">🍅</div>
+              <div className="icon carrot">🥕</div>
+              <div className="icon apple">🍎</div>
+              <div className="icon wheat">🌾</div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+};
 
 export default Home;
