@@ -201,8 +201,16 @@ The development of the **Mobile App for Direct Market Access for Farmers** was c
 4. **Integration**: Integrated third-party services like Google Maps API for geolocation and Razorpay for secure payments.
 5. **Testing & Debugging**: The app underwent rigorous unit and integration testing to ensure all functionalities were working smoothly, particularly payment gateway integration and geolocation accuracy.
 6. **Deployment**: The app was tested in real-world environments with farmers and buyers to validate its effectiveness before final deployment.
+7. 
+![image](https://github.com/user-attachments/assets/10d8e10f-19c6-453d-981e-89f0bbf62596)
 
 ---
+## Project Output 
+![image](https://github.com/user-attachments/assets/cb01e8de-ac1f-4eb1-bce6-a011ff0210fc)
+![image](https://github.com/user-attachments/assets/39e27302-ff81-45cc-9096-8fb36cb0bfc0)
+![image](https://github.com/user-attachments/assets/5510b6bd-35e0-47bf-9a1c-66909d83e580)
+![image](https://github.com/user-attachments/assets/2e582898-edb2-423f-b20b-27238f08e0f3)
+![image](https://github.com/user-attachments/assets/e184ed31-09d4-4cff-beaa-c7b25e1ffcde)
 ## 📌 **Conclusion**
 ## ✅ Conclusion
 
