@@ -73,6 +73,7 @@ Provided valuable insights on **technology feasibility**, **scalability**, and *
   - Google Maps API *(Location Services)*  
   - Firebase *(Push Notifications)*  
   - Razorpay / Stripe *(Payment Gateway)*
+  **Real-time Chat**: Socket.io
 
 ---
 
@@ -130,7 +131,14 @@ The flowchart below illustrates the end-to-end user journey within the applicati
 - Performed unit and integration testing  
 - Fixed bugs and optimized app performance  
 - Internal demo and feedback loop
+  
+### ✅ Week 9: Admin Panel Development
+- Built admin dashboard for user/product management  
+- Added analytics and moderation controls
 
+  ### ✅ Week 10: Rating & Review System
+- Developed product and seller rating system  
+- Linked reviews with moderation in admin panel 
 ---
 
 ## 📦 **Final Deliverables**
@@ -196,9 +204,29 @@ The development of the **Mobile App for Direct Market Access for Farmers** was c
 
 ---
 
+![image](https://github.com/user-attachments/assets/10d8e10f-19c6-453d-981e-89f0bbf62596)
+
+
+## Project Output 
+![image](https://github.com/user-attachments/assets/cb01e8de-ac1f-4eb1-bce6-a011ff0210fc)
+![image](https://github.com/user-attachments/assets/39e27302-ff81-45cc-9096-8fb36cb0bfc0)
+![image](https://github.com/user-attachments/assets/5510b6bd-35e0-47bf-9a1c-66909d83e580)
+![image](https://github.com/user-attachments/assets/2e582898-edb2-423f-b20b-27238f08e0f3)
+![image](https://github.com/user-attachments/assets/e184ed31-09d4-4cff-beaa-c7b25e1ffcde)
+
+
+
+
+
+
+
 ## 📌 **Conclusion**
-This project delivers a **scalable and user-friendly solution** for connecting farmers directly with the market, **eliminating middlemen**, and improving their income potential.  
-It supports the **digital transformation of agriculture** and fosters **sustainable rural development**.
+## ✅ Conclusion
+
+This AgriTech mobile application provides a scalable and practical solution to bridge the gap between farmers and buyers. By eliminating intermediaries, enabling real-time communication, and integrating secure digital payment systems, the platform empowers farmers with direct market access and better control over pricing.
+
+The project actively contributes to the digital transformation of the agricultural sector and supports sustainable rural development by enhancing transparency, improving market efficiency, and creating economic opportunities. With ongoing user feedback and iterative improvements, the solution holds strong potential to scale across regions and positively impact farming communities at large.
+
 
 ---
 
