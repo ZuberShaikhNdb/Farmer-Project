@@ -17,26 +17,33 @@ const SignUp = () => {
   };
 
   const handleLogin = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-      if (response.ok) {
-        navigate("/home");
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message || "Login failed");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred during login");
+    const data = await response.json(); // parse response JSON
+
+    if (response.ok) {
+      // ✅ Save token to localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userEmail", data.user.email); // optional
+
+      // ✅ Navigate to home and reload to update Navbar
+      navigate("/home");
+      window.location.reload();
+    } else {
+      alert(data.message || "Login failed");
     }
-  };
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("An error occurred during login");
+  }
+};
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {

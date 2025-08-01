@@ -50,7 +50,7 @@ const Home = () => {
               Fresh from the farm 🌱
             </motion.span>
             <motion.h1 variants={itemVariants}>
-              Grow Your Business with <span className="highlight">FarmConnect</span>
+              Grow Your Business with <span className="highlight">FarmMate</span>
             </motion.h1>
             <motion.p variants={itemVariants}>
               The most trusted marketplace connecting farmers directly with buyers. 
