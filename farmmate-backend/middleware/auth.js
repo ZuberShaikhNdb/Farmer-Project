@@ -1,5 +1,6 @@
-const jwt = require("jsonwebtoken");
-const JWT_SECRET = "your_secret_key_here"; // use same as authRoutes.js
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = "your_secret_key_here"; // same as authRoutes.js
 
 const auth = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -18,4 +19,4 @@ const auth = (req, res, next) => {
   }
 };
 
-module.exports = auth;
+export default auth; // ✅ use default export for ESM

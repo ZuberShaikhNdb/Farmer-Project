@@ -1,0 +1,107 @@
+/* Chatbot.css (Dark Theme with Larger Input & Button) */
+
+.chatbot {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 480px;
+  border-radius: 14px;
+  background: #1e1e2e; /* Dark background */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  padding: 12px;
+  color: #e2e8f0;
+}
+
+/* Messages area */
+.messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: #2a2a3b; /* Dark gray chat area */
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 12px;
+}
+
+/* Scrollbar */
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+.messages::-webkit-scrollbar-thumb {
+  background: #6366f1; /* Indigo */
+  border-radius: 10px;
+}
+.messages::-webkit-scrollbar-thumb:hover {
+  background: #4338ca;
+}
+
+/* User message bubble */
+.messages .text-right span {
+  background: #22c55e; /* Green */
+  color: #fff;
+  border-radius: 22px 22px 0 22px;
+  display: inline-block;
+  margin: 6px 0;
+  padding: 10px 14px;
+  max-width: 75%;
+  word-wrap: break-word;
+  font-size: 15px;
+  box-shadow: 0 3px 6px rgba(34, 197, 94, 0.4);
+}
+
+/* Bot message bubble */
+.messages .text-left span {
+  background: #3b82f6; /* Blue */
+  color: #fff;
+  border-radius: 22px 22px 22px 0;
+  display: inline-block;
+  margin: 6px 0;
+  padding: 10px 14px;
+  max-width: 75%;
+  word-wrap: break-word;
+  font-size: 15px;
+  box-shadow: 0 3px 6px rgba(59, 130, 246, 0.4);
+}
+
+/* Input & Button wrapper */
+.chatbot .flex {
+  display: flex;
+  align-items: center;
+}
+
+/* Input field */
+input {
+  border-radius: 12px 0 0 12px;
+  outline: none;
+  border: none;
+  background: #111827;
+  color: #f1f5f9;
+  font-size: 16px;
+  padding: 14px 16px;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+input:focus {
+  border: 1px solid #6366f1;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
+}
+
+/* Send button */
+button {
+  border-radius: 0 12px 12px 0;
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 14px 22px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+}
+button:hover {
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  transform: scale(1.05);
+}
+button:active {
+  transform: scale(0.95);
+}
