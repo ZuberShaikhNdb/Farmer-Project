@@ -84,23 +84,52 @@ Guided the project with expertise in software systems and **innovation in rural 
 
 ---
 
-## 📅 Weekly Progress (up to 23rd August 2025)
+## 📅 Weekly Progress (up to 23rd August)
 
-### ✅ Week 1: Idea Finalization & Research (Mon, 4 Aug – Sun, 10 Aug 2025)
+### ✅ Week 1: Idea Finalization & Research
 - Identified market gap and user needs  
 - Researched existing AgriTech platforms  
 - Finalized project scope and objectives
 
-### ✅ Week 2: Requirement Analysis & Planning (Mon, 11 Aug – Sun, 17 Aug 2025)
+### ✅ Week 2: Requirement Analysis & Planning
 - Listed key modules: Authentication, Chat, Payment, etc.  
 - Selected tech stack  
 - Delegated roles and responsibilities
 
-### ✅ Week 3: UI/UX Design (Mon, 18 Aug – Sat, 23 Aug 2025)
+### ✅ Week 3: UI/UX Design
 - Designed wireframes using Figma  
 - Defined navigation structure  
-- Chose app theme, branding, and color palette  
-- Prepared initial prototype for internal review
+- Chose app theme, branding, and color palette
+
+### ✅ Week 4: Frontend Setup
+- Initialized React Native environment  
+- Developed registration and login screens  
+- Implemented form validation
+
+### ✅ Week 5: Backend Setup
+- Created Node.js server and API routes  
+- Designed MongoDB schemas for users and products  
+- Established API-backend connection
+
+### ✅ Week 6: Core Feature Development
+- Built produce listing and search modules  
+- Added filters for location and product types  
+- Developed real-time chat feature
+
+### ✅ Week 7: Payment & Location Integration
+- Integrated Google Maps API for geolocation  
+- Enabled payments using Razorpay
+
+### ✅ Week 8: Testing & Debugging
+- Performed unit and integration testing  
+- Fixed bugs and optimized app performance  
+- Internal demo and feedback loop
+
+### ✅ Week 9 (up to 23rd Aug): Final Refinements
+- Enhanced UI based on user feedback  
+- Improved offline functionality and low-data optimization  
+- Finalized security checks for payments  
+- Prepared demo video and documentation
 
 ---
 
