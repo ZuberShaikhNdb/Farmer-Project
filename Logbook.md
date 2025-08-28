@@ -50,10 +50,10 @@ The objective of this project is to develop a **mobile application** that:
 
 | **Name**                         | **Roll No.** |
 |----------------------------------|--------------|
-| Rahul Anil Chaudhari             | TYDS-06      |
-| Vivek Shashikant Chaudhari       | TYDS-49      |
-| Zuber Shaikh Aqeel Maniyar       | TYDS-51      |
-| Hitesh Rameshwar Mahale          | TYDS-60      |
+| Rahul Anil Chaudhari             | DS-06      |
+| Vivek Shashikant Chaudhari       | DS-49      |
+| Zuber Shaikh Aqeel Maniyar       | DS-51      |
+| Hitesh Rameshwar Mahale          | DS-60      |
 
 ---
 
@@ -131,6 +131,9 @@ The flowchart below illustrates the end-to-end user journey within the applicati
 - Fixed bugs and optimized app performance  
 - Internal demo and feedback loop
 
+
+
+
 ---
 
 ## 📦 **Final Deliverables**
@@ -202,5 +205,5 @@ It supports the **digital transformation of agriculture** and fosters **sustaina
 
 ---
 
-**✨ Made with dedication by Team TYDS**  
+**✨ Made with dedication by Team B.Tech DS**  
 *Empowering farmers through technology.*
