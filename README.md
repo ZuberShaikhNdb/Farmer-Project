@@ -24,13 +24,13 @@ This platform empowers the farming community, enhances their income potential, a
 
 ## 👨‍💻 Team Members
 
-| Name                          | Roll No.            |
-|-------------------------------|---------------------|
-| Rahul Anil Chaudhari          | TYDS-06 (B.Tech DS) |
-| Vivek Shashikant Chaudhari    | TYDS-49 (B.Tech DS) |
-| Zuber Shaikh Aqeel Maniyar    | TYDS-51 (B.Tech DS) |
-| Hitesh Rameshwar Mahale       | TYDS-60 (B.Tech DS) |
-| Hitesh Rohidas Jadhav         | TYDS-68 (B.Tech DS) |
+| Name                          | Roll No.       |
+|-------------------------------|----------------|
+| Rahul Anil Chaudhari          | 06 (B.Tech DS) |
+| Vivek Shashikant Chaudhari    | 49 (B.Tech DS) |
+| Zuber Shaikh Aqeel Maniyar    | 51 (B.Tech DS) |
+| Hitesh Rameshwar Mahale       | 60 (B.Tech DS) |
+| Hitesh Rohidas Jadhav         | 68 (B.Tech DS) |
 
 ---
 
