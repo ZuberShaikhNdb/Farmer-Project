@@ -25,6 +25,80 @@ const BuyProducts = () => {
     const chatRef = useRef(null);
     const socket = useRef(null);
 
+    // OTP purchase states
+    const [otpModal, setOtpModal] = useState(false);
+    const [otpValue, setOtpValue] = useState("");
+    const [otpStatus, setOtpStatus] = useState("");
+    const [pendingPurchase, setPendingPurchase] = useState(null);
+    // Phone input modal state
+    const [phoneModal, setPhoneModal] = useState(false);
+    const [phoneValue, setPhoneValue] = useState("");
+
+    // Helper: get buyerId (assume from localStorage or context)
+    const getBuyerId = () => {
+        // Replace with actual user auth logic
+        return localStorage.getItem('userId');
+    };
+
+    const handleBuyNow = (product) => {
+        const buyerId = getBuyerId();
+        if (!buyerId) {
+            alert('Please log in to purchase.');
+            return;
+        }
+        setPendingPurchase({ buyerId, productId: product._id });
+        setPhoneModal(true);
+    };
+
+    const handlePhoneSubmit = async () => {
+        if (!pendingPurchase || !phoneValue) {
+            setOtpStatus('Please enter your phone number.');
+            return;
+        }
+        // Initiate OTP
+        try {
+            const res = await fetch('http://localhost:5000/api/purchase/initiate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ buyerId: pendingPurchase.buyerId, productId: pendingPurchase.productId, phone: phoneValue })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setPhoneModal(false);
+                setOtpModal(true);
+                setOtpStatus('OTP sent to your entered phone number.');
+            } else {
+                setOtpStatus(data.error || 'Failed to send OTP');
+                setPhoneModal(false);
+                setOtpModal(true);
+            }
+        } catch (err) {
+            setOtpStatus('Error sending OTP');
+            setPhoneModal(false);
+            setOtpModal(true);
+        }
+    };
+
+    const handleOtpConfirm = async () => {
+        if (!pendingPurchase) return;
+        try {
+            const res = await fetch('http://localhost:5000/api/purchase/confirm', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ buyerId: pendingPurchase.buyerId, otp: otpValue })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setOtpStatus('Purchase confirmed! Farmer notified.');
+                setTimeout(() => setOtpModal(false), 2000);
+            } else {
+                setOtpStatus(data.error || 'OTP confirmation failed');
+            }
+        } catch (err) {
+            setOtpStatus('Error confirming OTP');
+        }
+    };
+
     useEffect(() => {
         socket.current = io('http://localhost:5000');
         socket.current.on('connect', () => console.log('Socket connected', socket.current.id));
@@ -83,13 +157,7 @@ const BuyProducts = () => {
         setRatings(prev => ({ ...prev, [productId]: rating }));
     };
 
-    const handleBuyNow = (product) => {
-        const sellerPhone = product.contact.phone;
-        const sellerName = product.contact.email.split('@')[0];
-        const amount = product.price;
-        const upiPaymentUrl = `upi://pay?pa=${sellerPhone}@upi&pn=${encodeURIComponent(sellerName)}&am=${amount}&cu=INR`;
-        setUpiUrl(upiPaymentUrl);
-    };
+    // handleBuyNow replaced above with OTP-enabled version
 
     // Filter by state and search query
     const stateFiltered = selectedState
@@ -159,6 +227,44 @@ const BuyProducts = () => {
                     );
                 })}
             </div>
+
+
+            {phoneModal && (
+                <div className="qr-code-modal" onClick={() => setPhoneModal(false)}>
+                    <div className="qr-code-box" onClick={e => e.stopPropagation()}>
+                        <h3>Enter Your Phone Number</h3>
+                        <input
+                            type="text"
+                            placeholder="Phone Number"
+                            value={phoneValue}
+                            onChange={e => setPhoneValue(e.target.value)}
+                            maxLength={15}
+                            style={{ fontSize: '1.2em', textAlign: 'center', letterSpacing: '0.1em' }}
+                        />
+                        <button onClick={handlePhoneSubmit} style={{ marginTop: '1em' }}>Send OTP</button>
+                        <button onClick={() => setPhoneModal(false)} style={{ marginTop: '0.5em' }}>Cancel</button>
+                    </div>
+                </div>
+            )}
+
+            {otpModal && (
+                <div className="qr-code-modal" onClick={() => setOtpModal(false)}>
+                    <div className="qr-code-box" onClick={e => e.stopPropagation()}>
+                        <h3>OTP Confirmation</h3>
+                        <p>{otpStatus}</p>
+                        <input
+                            type="text"
+                            placeholder="Enter OTP"
+                            value={otpValue}
+                            onChange={e => setOtpValue(e.target.value)}
+                            maxLength={6}
+                            style={{ fontSize: '1.2em', textAlign: 'center', letterSpacing: '0.2em' }}
+                        />
+                        <button onClick={handleOtpConfirm} style={{ marginTop: '1em' }}>Confirm OTP</button>
+                        <button onClick={() => setOtpModal(false)} style={{ marginTop: '0.5em' }}>Cancel</button>
+                    </div>
+                </div>
+            )}
 
             {upiUrl && <div className="qr-code-modal" onClick={() => setUpiUrl('')}><div className="qr-code-box"><h3>Scan to Pay</h3><QRCodeCanvas value={upiUrl} size={250} /><p>Or open UPI app and scan</p><button onClick={() => setUpiUrl('')}>Close</button></div></div>}
 

@@ -3,10 +3,22 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const router = express.Router();
 
-// Make sure your .env contains GEMINI_API_KEY=your_key
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// Initialize Gemini client safely - don't let failures here crash the server
+let genAI = null;
+try {
+  if (process.env.GEMINI_API_KEY) {
+    genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    console.log('Gemini client initialized');
+  } else {
+    console.warn('GEMINI_API_KEY not set - chatbot will be unavailable');
+  }
+} catch (err) {
+  console.error('Failed to initialize Gemini client:', err);
+  genAI = null;
+}
 
 router.post("/", async (req, res) => {
+  if (!genAI) return res.status(503).json({ error: 'Chat service unavailable' });
   try {
     const { message } = req.body;
     if (!message) {

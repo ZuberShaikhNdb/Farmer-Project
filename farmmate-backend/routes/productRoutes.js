@@ -2,6 +2,7 @@
 import express from "express";
 import multer from "multer";
 import Product from "../models/Product.js";
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -29,7 +30,8 @@ router.get("/", async (req, res) => {
 });
 
 // POST: Add new product
-router.post("/add", upload.single("image"), async (req, res) => {
+// Protected: only logged-in users (farmers) can add products
+router.post("/add", auth, upload.single("image"), async (req, res) => {
   console.log("req.body:", req.body);
 
   try {
@@ -60,13 +62,16 @@ router.post("/add", upload.single("image"), async (req, res) => {
         phone: contactPhone,
       },
       image: req.file?.filename || null,
+      // set farmerId from authenticated user
+      farmerId: req.user?.id || null,
     });
 
     await newProduct.save();
-    res.status(201).json({ message: "Product added successfully" });
+    res.status(201).json({ message: "Product added successfully", product: newProduct });
   } catch (err) {
     console.error("Error adding product:", err);
-    res.status(400).json({ error: "Invalid product data" });
+    // send validation details if available
+    res.status(400).json({ error: "Invalid product data", details: err.message });
   }
 });
 

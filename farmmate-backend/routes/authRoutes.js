@@ -4,7 +4,10 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";   // notice `.js` extension in ESM
 
 const router = express.Router();
-const JWT_SECRET = "your_secret_key_here"; // Replace with a secure key in real projects
+const JWT_SECRET = process.env.JWT_SECRET || 'dev_jwt_secret';
+if (!process.env.JWT_SECRET) {
+  console.warn("Warning: JWT_SECRET environment variable is not set — using a development fallback secret. Set JWT_SECRET in production.");
+}
 
 // Signup
 router.post("/signup", async (req, res) => {
@@ -57,9 +60,10 @@ router.post("/login", async (req, res) => {
     res.json({ 
       message: "Login successful", 
       token, 
-      user: { id: user._id, email: user.email } 
+      user: { _id: user._id, email: user.email } 
     });
   } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ message: "Login error", error: err.message });
   }
 });

@@ -41,11 +41,14 @@ mongoose
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // Routes
+import purchaseRoutes from "./routes/purchaseRoutes.js";
+// ...existing code...
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/purchase", purchaseRoutes); // OTP purchase flow
 
 // Test route
 app.get("/", (req, res) => {

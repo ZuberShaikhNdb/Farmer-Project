@@ -29,10 +29,12 @@ const SignUp = () => {
     const data = await response.json(); // parse response JSON
 
     if (response.ok) {
-      // ✅ Save token to localStorage
+      // ✅ Save token and userId to localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("userEmail", data.user.email); // optional
-
+      if (data.user && data.user._id) {
+        localStorage.setItem("userId", data.user._id);
+      }
       // ✅ Navigate to home and reload to update Navbar
       navigate("/home");
       window.location.reload();
