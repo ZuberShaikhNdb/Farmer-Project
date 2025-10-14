@@ -53,7 +53,8 @@ The objective of this project is to develop a **mobile application** that:
 | Rahul Anil Chaudhari          | DS-06    |
 | Vivek Shashikant Chaudhari    | DS-49    |
 | Zuber Shaikh Aqeel Maniyar    | DS-51    |
-| Hitesh Rameshwar Mahale       | DS-60    |
+| Hitesh Rameshwar Mahale       | DS-60 
+| Hitesh jadhav                 | DS-68    |
 
 ---
 
