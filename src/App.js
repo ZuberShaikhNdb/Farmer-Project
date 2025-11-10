@@ -12,6 +12,7 @@ import Contact from './component/NavbarTab/Contact';
 import ContactSeller from './component/ContactSeller';
 import Profile from './component/Profile';
 import Chatbot from './component/NavbarTab/Chatbot';
+import Checkout from './component/Checkout';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="contactseller" element={<ContactSeller />} />
           <Route path="profile" element={<Profile />} />
           <Route path="chatbot" element={<Chatbot />} />
+          <Route path="checkout" element={<Checkout />} />
         </Route>
       </Routes>
     </Router>

@@ -1,19 +1,73 @@
 import express from "express";
 import User from "../models/User.js";
+import Product from "../models/Product.js";
+import Order from "../models/Order.js";  // 👈 We'll add an Order model to track purchases
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-// GET /api/user/profile
+// ================== PROFILE ==================
 router.get("/profile", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id).select("-password -__v");
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    res.json(user);
+    const profileData = {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
+    };
+
+    res.json(profileData);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-export default router; // ✅ ESM export
+// ================== FARMER: Listed Products ==================
+router.get("/listed", auth, async (req, res) => {
+  try {
+    if (req.user.role !== "farmer") {
+      return res.status(403).json({ message: "Only farmers can view listed products" });
+    }
+
+    const products = await Product.find({ farmer: req.user.id });
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching listed products", error: err.message });
+  }
+});
+
+// ================== CONSUMER: Purchased Products ==================
+router.get("/purchases", auth, async (req, res) => {
+  try {
+    if (req.user.role !== "consumer") {
+      return res.status(403).json({ message: "Only consumers can view purchases" });
+    }
+
+    const orders = await Order.find({ consumer: req.user.id }).populate("product");
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching purchases", error: err.message });
+  }
+});
+
+// ================== FARMER: Who bought my products ==================
+router.get("/sold", auth, async (req, res) => {
+  try {
+    if (req.user.role !== "farmer") {
+      return res.status(403).json({ message: "Only farmers can view sold products" });
+    }
+
+    const orders = await Order.find({ farmer: req.user.id })
+      .populate("product")
+      .populate("consumer", "email");
+
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching sold products", error: err.message });
+  }
+});
+
+export default router;

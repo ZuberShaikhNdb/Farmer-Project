@@ -148,9 +148,12 @@
   border-radius: 20px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
   object-fit: cover;
-  transform-style: preserve-3d;
-  transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
-  border: 8px solid white;
+}
+
+.hero-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
 }
 
 .floating-icons {
@@ -234,7 +237,6 @@
 
   .hero-image {
     max-width: 400px;
-    transform: none;
   }
 }
 

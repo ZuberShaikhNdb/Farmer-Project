@@ -12,8 +12,10 @@ import authRoutes from "./routes/authRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import chatRoutes from "./routes/chat.js"; // Gemini Chatbot route
+import orderRoutes from "./routes/orderRoutes.js";
+import Order from "./models/Order.js";
 
-dotenv.config();
+dotenv.config(); // ✅ Must be at the top before other imports
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -46,6 +48,7 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/orders", orderRoutes); // ✅ Use orderRoutes (matches your filename)
 
 // Test route
 app.get("/", (req, res) => {
@@ -95,5 +98,4 @@ io.on("connection", (socket) => {
 server.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
   console.log("Gemini API Key:", process.env.GEMINI_API_KEY?.slice(0, 10));
-
 });

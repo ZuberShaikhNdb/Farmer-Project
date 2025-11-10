@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = "your_secret_key_here"; // same as authRoutes.js
-
 const auth = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -11,12 +9,13 @@ const auth = (req, res, next) => {
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // { id: ... }
     next();
   } catch (error) {
+    console.error("Token verification error:", error.message);
     res.status(401).json({ message: "Invalid token" });
   }
 };
 
-export default auth; // ✅ use default export for ESM
+export default auth;

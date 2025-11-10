@@ -7,6 +7,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("consumer"); // Default role
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -17,33 +18,32 @@ const SignUp = () => {
   };
 
   const handleLogin = async () => {
-  try {
-    const response = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, role }),
+      });
 
-    const data = await response.json(); // parse response JSON
+      const data = await response.json();
 
-    if (response.ok) {
-      // ✅ Save token to localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userEmail", data.user.email); // optional
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userEmail", data.user.email);
+        localStorage.setItem("userRole", data.user.role); // ✅ Save role
 
-      // ✅ Navigate to home and reload to update Navbar
-      navigate("/home");
-      window.location.reload();
-    } else {
-      alert(data.message || "Login failed");
+        navigate("/home");
+        window.location.reload();
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login");
     }
-  } catch (error) {
-    console.error("Login error:", error);
-    alert("An error occurred during login");
-  }
-};
+  };
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
@@ -57,7 +57,7 @@ const SignUp = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, confirmPassword }),
+        body: JSON.stringify({ email, password, role }), // ✅ send role
       });
 
       if (response.ok) {
@@ -77,13 +77,14 @@ const SignUp = () => {
       <div className="container">
         <div className="form-container">
           <div className="form-toggle">
-            <button className={isLogin ? 'active' : ''} onClick={() => setIsLogin(true)}>
+            <button className={isLogin ? "active" : ""} onClick={() => setIsLogin(true)}>
               Login
             </button>
-            <button className={!isLogin ? 'active' : ''} onClick={() => setIsLogin(false)}>
+            <button className={!isLogin ? "active" : ""} onClick={() => setIsLogin(false)}>
               SignUp
             </button>
           </div>
+
           {isLogin ? (
             <div className="form">
               <h2>Login Form</h2>
@@ -91,7 +92,9 @@ const SignUp = () => {
               <input type="password" name="password" placeholder="Password" value={password} onChange={handleInputChange} />
               <a href="#">Forgot Password</a>
               <button onClick={handleLogin}>Login</button>
-              <p>Not a Member? <button onClick={() => setIsLogin(false)}>SignUp Now</button></p>
+              <p>
+                Not a Member? <button onClick={() => setIsLogin(false)}>SignUp Now</button>
+              </p>
             </div>
           ) : (
             <div className="form">
@@ -99,6 +102,13 @@ const SignUp = () => {
               <input type="email" name="email" placeholder="E-mail" value={email} onChange={handleInputChange} />
               <input type="password" name="password" placeholder="Password" value={password} onChange={handleInputChange} />
               <input type="password" name="confirmPassword" placeholder="Confirm Password" value={confirmPassword} onChange={handleInputChange} />
+
+              {/* ✅ Role dropdown */}
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
+                <option value="farmer">Farmer</option>
+                <option value="consumer">Consumer</option>
+              </select>
+
               <button onClick={handleSignUp}>SignUp</button>
             </div>
           )}

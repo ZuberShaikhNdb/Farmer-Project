@@ -1,67 +1,108 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";   // notice `.js` extension in ESM
+import User from "../models/User.js";
 
 const router = express.Router();
-const JWT_SECRET = "your_secret_key_here"; // Replace with a secure key in real projects
 
-// Signup
+// ================== SIGNUP ==================
 router.post("/signup", async (req, res) => {
-  const { email, password, confirmPassword } = req.body;
-
+ /* console.log("📩 Received body:", req.body);*/ 
   try {
-    // Check required fields
-    if (!email || !password || !confirmPassword) {
-      return res.status(400).json({ message: "Please fill all fields" });
+    const { email, password, role } = req.body;
+
+    // ✅ Validate required fields
+    if (!email || !password || !role) {
+      return res.status(400).json({ message: "Please fill all required fields" , received: req.body, });
     }
 
-    // Check password match
-    if (password !== confirmPassword) {
-      return res.status(400).json({ message: "Passwords do not match" });
+    // ✅ Validate role
+    if (!["farmer", "consumer"].includes(role)) {
+      return res.status(400).json({ message: "Role must be farmer or consumer" });
     }
 
-    // Check if user exists
+    // ✅ Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash and save
+    // ✅ Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword });
-    await user.save();
 
-    res.status(201).json({ message: "User created successfully!" });
-  } catch (err) {
-    res.status(500).json({ message: "Error creating user", error: err.message });
-  }
-});
+    // ✅ Create new user
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+      role,
+    });
 
-// Login
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+    await newUser.save();
 
-  try {
-    // Find user
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "User not found" });
+    // ✅ Generate JWT
+    const token = jwt.sign(
+      { id: newUser._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
-    // Check password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
-
-    // Create token
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
-
-    res.json({ 
-      message: "Login successful", 
-      token, 
-      user: { id: user._id, email: user.email } 
+    res.status(201).json({
+      message: "User registered successfully",
+      token,
+      user: {
+        id: newUser._id,
+        email: newUser.email,
+        role: newUser.role,
+      },
     });
   } catch (err) {
-    res.status(500).json({ message: "Login error", error: err.message });
+    console.error("❌ Signup error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-export default router;   // ✅ ESM export
+// ================== LOGIN ==================
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // ✅ Check required fields
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please fill all required fields" });
+    }
+
+    // ✅ Find user
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    // ✅ Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // ✅ Generate JWT
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    console.error("❌ Login error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+export default router;

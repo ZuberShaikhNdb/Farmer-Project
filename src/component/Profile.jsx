@@ -4,39 +4,31 @@ import "./Profile.css";
 
 const Profile = () => {
   const [user, setUser] = useState({});
-  const [listedProducts, setListedProducts] = useState([]);
-  const [purchasedProducts, setPurchasedProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return navigate("/login");
+    if (!token) return navigate("/");
 
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
+    const headers = { Authorization: `Bearer ${token}` };
 
     const fetchData = async () => {
       try {
-        // ✅ Profile info
+        // Fetch user profile
         const profileRes = await fetch("http://localhost:5000/api/user/profile", { headers });
         const profileData = await profileRes.json();
         setUser(profileData);
 
-        // ✅ Listed products
-        const listedRes = await fetch("http://localhost:5000/api/user/listed", { headers });
-        const listedData = await listedRes.json();
-        setListedProducts(listedData);
-
-        // ✅ Purchased products
-        const purchasedRes = await fetch("http://localhost:5000/api/user/purchases", { headers });
-        const purchasedData = await purchasedRes.json();
-        setPurchasedProducts(purchasedData);
+        // Fetch user orders
+        const ordersRes = await fetch("http://localhost:5000/api/orders", { headers });
+        const ordersData = await ordersRes.json();
+        setOrders(ordersData);
 
         setLoading(false);
       } catch (err) {
-        console.error("Error loading profile:", err);
+        console.error("Error:", err);
         setLoading(false);
       }
     };
@@ -44,44 +36,54 @@ const Profile = () => {
     fetchData();
   }, [navigate]);
 
-  if (loading) return <div className="profile-container"><p>Loading profile...</p></div>;
+  if (loading) {
+    return <div className="profile-loading">Loading...</div>;
+  }
 
   return (
     <div className="profile-container">
-      <h2>👤 My Profile</h2>
-      <div className="profile-info">
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>User ID:</strong> {user._id}</p>
-        <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+      {/* User Profile Section */}
+      <div className="profile-section">
+        <h2>My Profile</h2>
+        <div className="profile-info">
+          <p><strong>Name:</strong> {user.name}</p>
+          <p><strong>Email:</strong> {user.email}</p>
+          <p><strong>Phone:</strong> {user.phone}</p>
+          <p><strong>Role:</strong> {user.role}</p>
+        </div>
       </div>
 
-      <div className="profile-section">
-        <h3>📤 Products I Listed to Sell</h3>
-        {listedProducts.length === 0 ? (
-          <p>No products listed.</p>
+      {/* Orders Section */}
+      <div className="orders-section">
+        <h2>My Orders</h2>
+        {orders.length === 0 ? (
+          <p className="no-orders">No orders yet</p>
         ) : (
-          <ul>
-            {listedProducts.map((product) => (
-              <li key={product._id}>
-                <strong>{product.name}</strong> - ₹{product.price} ({product.quantity})
-              </li>
+          <div className="orders-list">
+            {orders.map((order) => (
+              <div className="order-card" key={order._id}>
+                <div className="order-header">
+                  <p><strong>Order ID:</strong> {order._id}</p>
+                  <p className={`order-status status-${order.status}`}>{order.status}</p>
+                </div>
+                <div className="order-details">
+                  <p><strong>Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
+                  <p><strong>Name:</strong> {order.fullName}</p>
+                  <p><strong>Address:</strong> {order.address}, {order.city}, {order.state} - {order.pincode}</p>
+                  <p><strong>Total:</strong> ₹{order.totalAmount}</p>
+                </div>
+                <div className="order-items">
+                  {order.items.map((item, idx) => (
+                    <div className="order-item" key={idx}>
+                      <span>{item.name}</span>
+                      <span>Qty: {item.quantity}</span>
+                      <span>₹{item.price * item.quantity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             ))}
-          </ul>
-        )}
-      </div>
-
-      <div className="profile-section">
-        <h3>🛒 Products I Purchased</h3>
-        {purchasedProducts.length === 0 ? (
-          <p>No purchases yet.</p>
-        ) : (
-          <ul>
-            {purchasedProducts.map((product) => (
-              <li key={product._id}>
-                <strong>{product.name}</strong> - ₹{product.price} ({product.quantity})
-              </li>
-            ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>

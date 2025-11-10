@@ -4,6 +4,7 @@ import Rating from './Rating';
 import RealTimeChat from './RealTimeChat';
 import { io } from 'socket.io-client';
 import { QRCodeCanvas } from 'qrcode.react'; // Use QRCodeCanvas here
+import { useNavigate } from 'react-router-dom';
 
 const statesOfIndia = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -24,6 +25,7 @@ const BuyProducts = () => {
     const [upiUrl, setUpiUrl] = useState(""); // ➡️ For QR Code
     const chatRef = useRef(null);
     const socket = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         socket.current = io('http://localhost:5000');
@@ -84,11 +86,7 @@ const BuyProducts = () => {
     };
 
     const handleBuyNow = (product) => {
-        const sellerPhone = product.contact.phone;
-        const sellerName = product.contact.email.split('@')[0];
-        const amount = product.price;
-        const upiPaymentUrl = `upi://pay?pa=${sellerPhone}@upi&pn=${encodeURIComponent(sellerName)}&am=${amount}&cu=INR`;
-        setUpiUrl(upiPaymentUrl);
+        navigate("/checkout", { state: { product } });
     };
 
     // Filter by state and search query
