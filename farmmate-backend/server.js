@@ -1,3 +1,4 @@
+import "./config/env.js"; 
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -15,7 +16,6 @@ import chatRoutes from "./routes/chat.js"; // Gemini Chatbot route
 import orderRoutes from "./routes/orderRoutes.js";
 import Order from "./models/Order.js";
 
-dotenv.config(); // ✅ Must be at the top before other imports
 
 const app = express();
 const PORT = process.env.PORT || 5000;

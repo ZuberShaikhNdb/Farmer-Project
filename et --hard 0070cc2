@@ -1,0 +1,31 @@
+[33mce42d8c[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: pull origin main --rebase (start): checkout ce42d8c84085b04d3c8d0f5fcf4d0fb95ed1551a
+[33m0070cc2[m[33m ([m[1;32mmain[m[33m)[m HEAD@{1}: commit: make order page and checkout page
+[33m2d196b6[m HEAD@{2}: pull origin main: Merge made by the 'ort' strategy.
+[33m1aaca38[m HEAD@{3}: commit: chat bot and many things
+[33md29b012[m HEAD@{4}: Branch: renamed refs/heads/main to refs/heads/main
+[33md29b012[m HEAD@{6}: commit: Initial commit
+[33m77a0115[m HEAD@{7}: pull --rebase origin main (finish): returning to refs/heads/main
+[33m77a0115[m HEAD@{8}: pull --rebase origin main (pick): Add more functionality
+[33ma93a4d8[m HEAD@{9}: pull --rebase origin main (start): checkout a93a4d8d41128566a40bb08a3d4d381774341c03
+[33mc4b3033[m HEAD@{10}: commit: Add more functionality
+[33me1a301c[m HEAD@{11}: commit: Add more functionality
+[33m3a48644[m HEAD@{12}: commit: Add more functionality
+[33m05b4778[m HEAD@{13}: reset: moving to HEAD~1
+[33me4f9a0b[m HEAD@{14}: pull origin main --rebase (finish): returning to refs/heads/main
+[33me4f9a0b[m HEAD@{15}: pull origin main --rebase (pick): Updated BuyProducts, RealTimeChat, Rating, and ContactSeller components
+[33m05b4778[m HEAD@{16}: pull origin main --rebase (start): checkout 05b4778c0a3d583e95d8263e0404bb9a73409bb9
+[33mc8be3b2[m HEAD@{17}: commit: Updated BuyProducts, RealTimeChat, Rating, and ContactSeller components
+[33m2c09046[m HEAD@{18}: commit: add backend code
+[33mb443b17[m HEAD@{19}: pull origin main --rebase (finish): returning to refs/heads/main
+[33mb443b17[m HEAD@{20}: pull origin main --rebase (pick): Add new component
+[33m738c48a[m HEAD@{21}: pull origin main --rebase (start): checkout 738c48a5d12b81457e47155cc87900ecaba36851
+[33m139de16[m HEAD@{22}: commit: Add new component
+[33m40cfbcd[m HEAD@{23}: pull origin main: Merge made by the 'ort' strategy.
+[33m572df7e[m HEAD@{24}: pull origin main --rebase (finish): returning to refs/heads/main
+[33m572df7e[m HEAD@{25}: pull origin main --rebase (pick): delte uncessary file
+[33mda0f3bc[m HEAD@{26}: pull origin main --rebase (pick): Add images and rating system
+[33m934eb74[m HEAD@{27}: pull origin main --rebase (start): checkout 934eb7401e770c53e751024ff17c85eb2e606cfb
+[33m5e6ecaf[m HEAD@{28}: commit: delte uncessary file
+[33m82660f1[m HEAD@{29}: commit: Add images and rating system
+[33m9b9f704[m HEAD@{30}: Branch: renamed refs/heads/master to refs/heads/main
+[33m9b9f704[m HEAD@{32}: commit (initial): project commit

@@ -6,34 +6,13 @@ const orderSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  fullName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  city: {
-    type: String,
-    required: true,
-  },
-  state: {
-    type: String,
-    required: true,
-  },
-  pincode: {
-    type: String,
-    required: true,
-  },
+  fullName: String,
+  email: String,
+  phone: String,
+  address: String,
+  city: String,
+  state: String,
+  pincode: String,
   items: [
     {
       productId: String,
@@ -41,12 +20,12 @@ const orderSchema = new mongoose.Schema({
       price: Number,
       quantity: Number,
       image: String,
+      farmerId: String, // ✅ Add farmer ID
+      farmerEmail: String, // ✅ Add farmer email
+      farmerName: String, // ✅ Add farmer name
     },
   ],
-  totalAmount: {
-    type: Number,
-    required: true,
-  },
+  totalAmount: Number,
   status: {
     type: String,
     enum: ["pending", "confirmed", "shipped", "delivered", "cancelled"],

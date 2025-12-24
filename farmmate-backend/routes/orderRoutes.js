@@ -1,6 +1,7 @@
 import express from "express";
 import Order from "../models/Order.js";
 import auth from "../middleware/auth.js";
+import { sendBuyerEmail, sendFarmerEmail } from "../services/emailService.js";
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.post("/", auth, async (req, res) => {
     }, 0);
 
     // Create order
-    const order = new Order({
+    const newOrder = new Order({
       userId,
       fullName,
       email,
@@ -40,9 +41,37 @@ router.post("/", auth, async (req, res) => {
       status: "pending",
     });
 
-    const savedOrder = await order.save();
+    const savedOrder = await newOrder.save();
 
-    // ✅ Send response
+    // ✅ Send email to buyer
+    try {
+      await sendBuyerEmail(email, fullName, savedOrder._id, totalAmount, items);
+      console.log("✅ Buyer email sent");
+    } catch (emailError) {
+      console.error("⚠️ Failed to send buyer email:", emailError);
+    }
+
+    // ✅ Send email to each farmer
+    const farmerEmails = new Set();
+    for (const item of items) {
+      if (item.farmerEmail && !farmerEmails.has(item.farmerEmail)) {
+        try {
+          await sendFarmerEmail(
+            item.farmerEmail,
+            item.farmerName,
+            fullName,
+            [item],
+            savedOrder._id
+          );
+          farmerEmails.add(item.farmerEmail);
+          console.log("✅ Farmer email sent to:", item.farmerEmail);
+        } catch (emailError) {
+          console.error("⚠️ Failed to send farmer email:", emailError);
+        }
+      }
+    }
+
+    // ✅ Respond with order details
     return res.status(201).json({
       success: true,
       orderId: savedOrder._id,

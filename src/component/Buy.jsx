@@ -71,14 +71,19 @@ const BuyProducts = () => {
         return () => document.removeEventListener("mousedown", handleClickOutsideChat);
     }, [chatVisible]);
 
-    const handleAddToCart = (productId) => {
-        const product = products.find(p => p._id === productId);
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const idx = cart.findIndex(item => item.id === productId);
-        if (idx > -1) cart[idx].quantity += 1;
-        else cart.push({ id: productId, name: product.name, price: product.price, quantity: 1, image: `http://localhost:5000/uploads/${product.image}` });
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert(`Added ${product.name} to cart`);
+    const handleAddToCart = (product, seller) => {
+        const cartItem = {
+            id: product._id,
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+            image: product.image,
+            farmerId: seller._id,
+            farmerEmail: seller.email, // ✅ Include farmer email
+            farmerName: seller.name, // ✅ Include farmer name
+        };
+        
+        // Add to cart logic...
     };
 
     const handleRating = (productId, rating) => {
@@ -148,7 +153,7 @@ const BuyProducts = () => {
 
                                     <div className="button-group">
                                         <button onClick={e => { e.stopPropagation(); handleContact(product.contact, product._id); }} className="contact-button">Contact</button>
-                                        <button onClick={e => { e.stopPropagation(); handleAddToCart(product._id); }} className="cart-button">Add to Cart</button>
+                                        <button onClick={e => { e.stopPropagation(); handleAddToCart(product, product.contact); }} className="cart-button">Add to Cart</button>
                                         <button onClick={e => { e.stopPropagation(); handleBuyNow(product); }} className="buy-now-button">Buy Now</button>
                                     </div>
                                 </>
