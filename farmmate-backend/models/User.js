@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      trim: true,
+      default: "",
+    },
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -20,6 +25,11 @@ const userSchema = new mongoose.Schema(
       enum: ["farmer", "consumer"], // ✅ Only these two values
       required: true,
       default: "consumer",
+    },
+    phone: {
+      type: String,
+      trim: true,
+      default: "",
     },
   },
   { timestamps: true }

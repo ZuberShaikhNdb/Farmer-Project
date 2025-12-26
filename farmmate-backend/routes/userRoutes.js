@@ -14,7 +14,9 @@ router.get("/profile", auth, async (req, res) => {
 
     const profileData = {
       id: user._id,
+      name: user.name || "",
       email: user.email,
+      phone: user.phone || "",
       role: user.role,
       createdAt: user.createdAt,
     };
@@ -22,6 +24,24 @@ router.get("/profile", auth, async (req, res) => {
     res.json(profileData);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+// Update profile (name, phone)
+router.put("/profile", auth, async (req, res) => {
+  try {
+    const { name, phone } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (typeof name === "string") user.name = name.trim();
+    if (typeof phone === "string") user.phone = phone.trim();
+
+    await user.save();
+
+    res.json({ message: "Profile updated", profile: { name: user.name, email: user.email, phone: user.phone, role: user.role } });
+  } catch (err) {
+    res.status(500).json({ message: "Error updating profile", error: err.message });
   }
 });
 

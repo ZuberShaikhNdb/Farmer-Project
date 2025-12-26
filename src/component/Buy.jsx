@@ -83,7 +83,27 @@ const BuyProducts = () => {
             farmerName: seller.name, // ✅ Include farmer name
         };
         
-        // Add to cart logic...
+        try {
+            const saved = localStorage.getItem('cart');
+            const cart = saved ? JSON.parse(saved) : [];
+
+            const existingIndex = cart.findIndex(item => item.id === cartItem.id);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+            } else {
+                // ensure image is a full URL like other components expect
+                const imageUrl = product.image && product.image.startsWith('http')
+                    ? product.image
+                    : `http://localhost:5000/uploads/${product.image}`;
+                cart.push({ ...cartItem, image: imageUrl });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Product added to cart');
+        } catch (err) {
+            console.error('Failed to add to cart', err);
+            alert('Could not add to cart');
+        }
     };
 
     const handleRating = (productId, rating) => {
