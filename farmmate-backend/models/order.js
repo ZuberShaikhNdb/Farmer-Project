@@ -26,6 +26,13 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   totalAmount: Number,
+  // OTP for order confirmation (optional)
+  otp: String,
+  otpExpiry: Date,
+  otpVerified: {
+    type: Boolean,
+    default: false,
+  },
   status: {
     type: String,
     enum: ["pending", "confirmed", "shipped", "delivered", "cancelled"],

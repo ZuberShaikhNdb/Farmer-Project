@@ -66,7 +66,8 @@ router.get("/purchases", auth, async (req, res) => {
       return res.status(403).json({ message: "Only consumers can view purchases" });
     }
 
-    const orders = await Order.find({ consumer: req.user.id }).populate("product");
+    // Orders store the buyer as `userId` in the Order model
+    const orders = await Order.find({ userId: req.user.id }).sort({ createdAt: -1 });
     res.json(orders);
   } catch (err) {
     res.status(500).json({ message: "Error fetching purchases", error: err.message });
@@ -80,11 +81,18 @@ router.get("/sold", auth, async (req, res) => {
       return res.status(403).json({ message: "Only farmers can view sold products" });
     }
 
-    const orders = await Order.find({ farmer: req.user.id })
-      .populate("product")
-      .populate("consumer", "email");
+    // Orders keep farmer info inside items as `farmerId` — find orders containing items sold by this farmer
+    const orders = await Order.find({ "items.farmerId": req.user.id })
+      .sort({ createdAt: -1 })
+      .populate('userId', 'email name');
 
-    res.json(orders);
+    // Rename populated userId to consumer for compatibility with frontend expectations
+    const transformed = orders.map(o => ({
+      ...o.toObject(),
+      consumer: o.userId,
+    }));
+
+    res.json(transformed);
   } catch (err) {
     res.status(500).json({ message: "Error fetching sold products", error: err.message });
   }

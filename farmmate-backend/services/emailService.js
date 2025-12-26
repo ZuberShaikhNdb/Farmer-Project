@@ -15,7 +15,7 @@ transporter.verify().then(() => {
   console.error("❌ Email transporter verification failed:", err && err.message ? err.message : err);
 });
 
-export const sendBuyerEmail = async (buyerEmail, buyerName, orderId, totalAmount, items) => {
+export const sendBuyerEmail = async (buyerEmail, buyerName, orderId, totalAmount, items, otp) => {
   const itemsList = items
     .map(item => `<li>${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toFixed(2)}</li>`)
     .join("");
@@ -32,6 +32,8 @@ export const sendBuyerEmail = async (buyerEmail, buyerName, orderId, totalAmount
       <h3>Order Details:</h3>
       <p><strong>Order ID:</strong> ${orderId}</p>
       <p><strong>Total Amount:</strong> ₹${totalAmount}</p>
+      ${otp ? `<p><strong>Order OTP:</strong> <span style="font-weight:bold; font-size:1.1rem;">${otp}</span></p>
+      <p>This OTP is valid for 10 minutes. Enter it to confirm your order.</p>` : ""}
       
       <h3>Items Ordered:</h3>
       <ul>${itemsList}</ul>

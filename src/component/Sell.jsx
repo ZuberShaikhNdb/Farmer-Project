@@ -68,8 +68,17 @@ const Sell = () => {
     }
 
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('You must be logged in as a farmer to list products');
+        return;
+      }
+
       const res = await fetch("http://localhost:5000/api/products/add", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
 
@@ -93,7 +102,12 @@ const Sell = () => {
         setPreview(null);
         setTimeout(() => setSuccess(false), 4000);
       } else {
-        alert("Failed to submit. Try again.");
+        let errMsg = 'Failed to submit. Try again.';
+        try {
+          const err = await res.json();
+          errMsg = err.message || err.error || JSON.stringify(err);
+        } catch (_) {}
+        alert(errMsg);
       }
     } catch (error) {
       console.error("Error submitting product:", error);

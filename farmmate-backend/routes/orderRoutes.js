@@ -26,7 +26,10 @@ router.post("/", auth, async (req, res) => {
       return sum + (Number(item.price) * Number(item.quantity));
     }, 0);
 
-    // Create order
+    // Create order with OTP for confirmation
+    const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // valid for 10 minutes
+
     const newOrder = new Order({
       userId,
       fullName,
@@ -39,14 +42,17 @@ router.post("/", auth, async (req, res) => {
       items,
       totalAmount,
       status: "pending",
+      otp,
+      otpExpiry,
+      otpVerified: false,
     });
 
     const savedOrder = await newOrder.save();
 
-    // ✅ Send email to buyer
+    // ✅ Send email to buyer including OTP
     try {
-      await sendBuyerEmail(email, fullName, savedOrder._id, totalAmount, items);
-      console.log("✅ Buyer email sent");
+      await sendBuyerEmail(email, fullName, savedOrder._id, totalAmount, items, otp);
+      console.log("✅ Buyer email with OTP sent");
     } catch (emailError) {
       console.error("⚠️ Failed to send buyer email:", emailError);
     }
@@ -109,6 +115,36 @@ router.get("/:id", auth, async (req, res) => {
   } catch (error) {
     console.error("Error fetching order:", error);
     return res.status(500).json({ error: "Failed to fetch order" });
+  }
+});
+
+// Verify order OTP
+router.post('/verify-otp', auth, async (req, res) => {
+  try {
+    const { orderId, otp } = req.body;
+    if (!orderId || !otp) return res.status(400).json({ message: 'orderId and otp required' });
+
+    const order = await Order.findById(orderId);
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+
+    // ensure requester is order owner
+    if (order.userId.toString() !== req.user.id) return res.status(403).json({ message: 'Not authorized' });
+
+    if (order.otpVerified) return res.json({ message: 'OTP already verified' });
+
+    if (!order.otp || !order.otpExpiry) return res.status(400).json({ message: 'No OTP for this order' });
+
+    if (new Date() > new Date(order.otpExpiry)) return res.status(400).json({ message: 'OTP expired' });
+
+    if (order.otp !== otp.toString()) return res.status(400).json({ message: 'Invalid OTP' });
+
+    order.otpVerified = true;
+    await order.save();
+
+    return res.json({ message: 'OTP verified', orderId: order._id });
+  } catch (err) {
+    console.error('OTP verify error', err);
+    return res.status(500).json({ message: 'Server error' });
   }
 });
 
