@@ -34,6 +34,7 @@ This platform empowers the farming community, enhances their income potential, a
 | Vivek Shashikant Chaudhari    | TYDS-49   |
 | Zuber Shaikh Aqeel Maniyar    | TYDS-51   |
 | Hitesh Rameshwar Mahale       | TYDS-60   |
+| Hitesh Rohidas Jadhav       | TYDS-68   |
 
 
 ## 🧑‍🏫 Project Guide
